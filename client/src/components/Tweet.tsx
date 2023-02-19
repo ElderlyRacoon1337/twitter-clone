@@ -3,6 +3,7 @@ import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 interface TweetProps {
   tweetData: {
@@ -27,7 +28,8 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
         padding: '20px',
         borderBottom: '1px solid #eee',
         cursor: 'pointer',
-        '&:hover': { bgcolor: 'rgb(245,248,250)' },
+        // '&:hover': { bgcolor: 'rgb(245,248,250)' },
+        '&:hover': { bgcolor: grey[100] },
       }}
     >
       <Box>

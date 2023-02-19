@@ -1,5 +1,6 @@
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import { Box, Stack, Typography } from '@mui/material';
+import AddTweet from './AddTweet';
 import Tweet from './Tweet';
 
 const Content: React.FC = (): React.ReactElement => {
@@ -32,9 +33,7 @@ const Content: React.FC = (): React.ReactElement => {
           sx={{
             p: '10px 20px',
             borderBottom: '1px solid #eee',
-            position: 'fixed',
-            // left: 0,
-            width: '574px',
+            // position: 'fixed',
             background: 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(5px)',
             zIndex: 1,
@@ -45,7 +44,8 @@ const Content: React.FC = (): React.ReactElement => {
           </Typography>
           <AutoAwesomeOutlinedIcon color="primary" sx={{ fontSize: '30px' }} />
         </Stack>
-        <Box sx={{ pt: '50px' }}>
+        <AddTweet />
+        <Box>
           <Tweet tweetData={tweetData} />
           <Tweet tweetData={tweetData} />
           <Tweet tweetData={tweetData} />
