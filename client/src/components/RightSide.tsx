@@ -13,6 +13,7 @@ import { grey } from '@mui/material/colors';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import { ChangeEvent, useState } from 'react';
 import { SearchRightSide } from './SearchRightSide';
+import Tags from './Tags';
 
 const RightSide: React.FC = (): React.ReactElement => {
   const [text, setText] = useState<string>('');
@@ -28,45 +29,7 @@ const RightSide: React.FC = (): React.ReactElement => {
     <Stack sx={{ flex: 4, pt: 1, pl: '30px' }}>
       <Box sx={{ position: 'fixed' }}>
         <SearchRightSide text={text} handleChange={handleChange} />
-        <Stack
-          sx={{
-            bgcolor: grey[100],
-            borderRadius: '20px',
-            mt: '20px',
-            p: '5px 0',
-          }}
-        >
-          <Typography variant="h6" fontWeight={'bold'} sx={{ pt: 2, pl: 2 }}>
-            Актуальные темы
-          </Typography>
-          <List>
-            <ListItemButton
-              sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
-            >
-              <ListItemText
-                primary="Санкт Петербург"
-                secondary="Твитов: 1 488"
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
-            >
-              <ListItemText
-                primary="Санкт Петербург"
-                secondary="Твитов: 1 488"
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
-            >
-              <ListItemText
-                primary="Санкт Петербург"
-                secondary="Твитов: 1 488"
-              />
-            </ListItemButton>
-          </List>
-        </Stack>
-
+        <Tags />
         <Stack
           sx={{
             bgcolor: grey[100],

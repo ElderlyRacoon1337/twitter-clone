@@ -30,7 +30,7 @@ function App() {
         <CssBaseline />
         <Routes>
           <Route path="/auth" element={<Signin />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/*" element={<Home />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

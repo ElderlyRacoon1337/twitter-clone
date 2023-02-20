@@ -25,6 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTweet from './AddTweet';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navigation: React.FC = (): React.ReactElement => {
   const [open, setOpen] = useState<boolean>(false);
@@ -69,16 +70,20 @@ const Navigation: React.FC = (): React.ReactElement => {
           }}
         >
           <ListItem sx={{ pt: 0, pb: 0 }}>
-            <IconButton sx={{ ml: '-10px' }}>
-              <Twitter fontSize="large" color="primary" />
-            </IconButton>
+            <Link to="/">
+              <IconButton sx={{ ml: '-10px' }}>
+                <Twitter fontSize="large" color="primary" />
+              </IconButton>
+            </Link>
           </ListItem>
-          <ListItemButtonStyled>
-            <HomeOutlinedIcon sx={{ mr: '15px', fontSize: '30px' }} />
-            <NavigationText variant="h6" fontWeight={800}>
-              Главная
-            </NavigationText>
-          </ListItemButtonStyled>
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+            <ListItemButtonStyled>
+              <HomeOutlinedIcon sx={{ mr: '15px', fontSize: '30px' }} />
+              <NavigationText variant="h6" fontWeight={800}>
+                Главная
+              </NavigationText>
+            </ListItemButtonStyled>
+          </Link>
           <ListItemButtonStyled>
             <TagIcon sx={{ mr: '15px', fontSize: '30px' }} />
             <NavigationText variant="h6" fontWeight={500}>
@@ -150,7 +155,7 @@ const Navigation: React.FC = (): React.ReactElement => {
       <Dialog
         open={open}
         onClose={(e) => setOpen(false)}
-        sx={{ '& .MuiPaper-root': { borderRadius: '20px', bottom: '100px' } }}
+        sx={{ '& .MuiPaper-root': { borderRadius: '30px', bottom: '100px' } }}
       >
         <Stack
           direction={'row'}

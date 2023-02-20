@@ -73,7 +73,12 @@ const Signin = () => {
           <Stack>
             <Button
               variant="contained"
-              sx={{ borderRadius: '20px', color: 'white', mb: '20px' }}
+              sx={{
+                borderRadius: '20px',
+                color: 'white',
+                mb: '20px',
+                p: '10px 0',
+              }}
               onClick={(e) => {
                 handleClickOpen();
                 setIsSignUp(true);
@@ -83,7 +88,7 @@ const Signin = () => {
             </Button>
             <Button
               variant="outlined"
-              sx={{ borderRadius: '20px' }}
+              sx={{ borderRadius: '20px', p: '10px 0' }}
               onClick={(e) => {
                 handleClickOpen();
                 setIsSignUp(false);

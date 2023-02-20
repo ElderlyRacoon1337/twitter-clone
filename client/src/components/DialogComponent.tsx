@@ -28,7 +28,7 @@ const DialogComponent: React.FC<DialogProps> = ({
       open={open}
       sx={{
         '& .MuiPaper-root': {
-          borderRadius: '20px',
+          borderRadius: '30px',
         },
       }}
       onClose={handleClose}
@@ -76,7 +76,7 @@ const DialogComponent: React.FC<DialogProps> = ({
               <Button
                 variant="contained"
                 onClick={handleClose}
-                sx={{ borderRadius: 20, mt: 2 }}
+                sx={{ borderRadius: 20, mt: 2, p: '10px 0' }}
                 fullWidth
               >
                 Далее
@@ -108,7 +108,7 @@ const DialogComponent: React.FC<DialogProps> = ({
               <Button
                 variant="contained"
                 onClick={handleClose}
-                sx={{ borderRadius: 20, mt: 2 }}
+                sx={{ borderRadius: 20, mt: 2, p: '10px 0' }}
                 fullWidth
               >
                 Войти

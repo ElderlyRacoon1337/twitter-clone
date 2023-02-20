@@ -7,7 +7,7 @@ import { call, takeLatest, put } from 'redux-saga/effects';
 import { TweetsApi } from '../../../services/TweetsApi';
 import { LoadingState } from './contracts/state';
 
-export function* fetchTweetsRequest() {
+function* fetchTweetsRequest() {
   try {
     // @ts-ignore
     const data = yield call(TweetsApi.fetchTweets);

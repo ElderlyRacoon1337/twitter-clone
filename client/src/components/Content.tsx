@@ -1,8 +1,8 @@
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import {
-  Backdrop,
   Box,
   CircularProgress,
+  IconButton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -12,19 +12,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import {
   selectIsLoadingState,
-  selectTweets,
   selectTweetsItems,
 } from '../store/ducks/tweets/selectors';
 import { fetchTweets } from '../store/ducks/tweets/actionCreators';
+import { fetchTags } from '../store/ducks/tags/actionCreators';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Content: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const tweets = useSelector(selectTweetsItems);
   const isLoading = useSelector(selectIsLoadingState);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchTweets());
-  }, []);
+    dispatch(fetchTags());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchTweets());
+  }, [location]);
 
   const tweetData = {
     user: {
@@ -39,6 +48,11 @@ const Content: React.FC = (): React.ReactElement => {
     likesCount: 3,
     createdAt: '17 февраля в 20:34',
   };
+
+  const handleClickBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Stack sx={{ flex: 7 }}>
       <Box
@@ -49,47 +63,125 @@ const Content: React.FC = (): React.ReactElement => {
           position: 'relative',
         }}
       >
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          sx={{
-            p: '10px 20px',
-            borderBottom: '1px solid #eee',
-            // position: 'fixed',
-            background: 'rgba(255, 255, 255, 0.8)',
-            backdropFilter: 'blur(5px)',
-            zIndex: 1,
-          }}
-        >
-          <Typography variant="h6" fontWeight={'bold'}>
-            Главная
-          </Typography>
-          <AutoAwesomeOutlinedIcon
-            color="primary"
-            sx={{ fontSize: '30px', bgcolor: 'white' }}
+        <Routes>
+          {/* <Route path="/" element={<>Hello world</>} /> */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Stack
+                  direction={'row'}
+                  justifyContent={'space-between'}
+                  sx={{
+                    p: '10px 20px',
+                    borderBottom: '1px solid #eee',
+                    // position: 'fixed',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    backdropFilter: 'blur(5px)',
+                    zIndex: 1,
+                  }}
+                >
+                  <Typography variant="h6" fontWeight={'bold'}>
+                    Главная
+                  </Typography>
+                  <AutoAwesomeOutlinedIcon
+                    color="primary"
+                    sx={{ fontSize: '30px', bgcolor: 'white' }}
+                  />
+                </Stack>
+                <AddTweet />
+                <Box sx={{ borderBottom: '13px solid #eee' }}></Box>
+                <Box sx={{ position: 'relative' }}>
+                  {!isLoading ? (
+                    tweets.map((el) => <Tweet key={el._id} tweetData={el} />)
+                  ) : (
+                    <CircularProgress
+                      color="primary"
+                      sx={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: '150px',
+                        ml: 'auto',
+                        mr: 'auto',
+                        height: '50px',
+                        width: '50px',
+                      }}
+                    />
+                  )}
+                </Box>
+              </>
+            }
           />
-        </Stack>
-        <AddTweet />
-        <Box sx={{ borderBottom: '13px solid #eee' }}></Box>
-        <Box sx={{ position: 'relative' }}>
-          {!isLoading ? (
-            tweets.map((el) => <Tweet key={el._id} tweetData={el} />)
-          ) : (
-            <CircularProgress
-              color="primary"
-              sx={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: '150px',
-                ml: 'auto',
-                mr: 'auto',
-                height: '50px',
-                width: '50px',
-              }}
-            />
-          )}
-        </Box>
+          <Route
+            path="/search/*"
+            element={
+              <>
+                <Stack
+                  direction={'row'}
+                  justifyContent={'space-between'}
+                  sx={{
+                    p: '10px 20px',
+                    borderBottom: '1px solid #eee',
+                    // position: 'fixed',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    backdropFilter: 'blur(5px)',
+                    zIndex: 1,
+                  }}
+                >
+                  <Stack direction={'row'} alignItems={'center'}>
+                    <IconButton sx={{ mr: '10px' }} onClick={handleClickBack}>
+                      <ArrowBackIcon color="primary" />
+                    </IconButton>
+                    <Typography variant="h6" fontWeight={'bold'}>
+                      Теги
+                    </Typography>
+                  </Stack>
+                  <AutoAwesomeOutlinedIcon
+                    color="primary"
+                    sx={{ fontSize: '30px', bgcolor: 'white' }}
+                  />
+                </Stack>
+                <AddTweet />
+                <Box sx={{ borderBottom: '13px solid #eee' }}></Box>
+                <Box sx={{ position: 'relative' }}></Box>
+              </>
+            }
+          />
+          <Route
+            path="/tweet/:id"
+            element={
+              <>
+                <Stack
+                  direction={'row'}
+                  justifyContent={'space-between'}
+                  sx={{
+                    p: '10px 20px',
+                    borderBottom: '1px solid #eee',
+                    // position: 'fixed',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    backdropFilter: 'blur(5px)',
+                    zIndex: 1,
+                  }}
+                >
+                  <Stack direction={'row'} alignItems={'center'}>
+                    <IconButton sx={{ mr: '10px' }} onClick={handleClickBack}>
+                      <ArrowBackIcon color="primary" />
+                    </IconButton>
+                    <Typography variant="h6" fontWeight={'bold'}>
+                      Твит
+                    </Typography>
+                  </Stack>
+                  <AutoAwesomeOutlinedIcon
+                    color="primary"
+                    sx={{ fontSize: '30px', bgcolor: 'white' }}
+                  />
+                </Stack>
+                <Box sx={{ position: 'relative' }}></Box>
+              </>
+            }
+          />
+        </Routes>
       </Box>
     </Stack>
   );

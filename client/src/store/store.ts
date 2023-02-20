@@ -1,3 +1,4 @@
+import { TagsState } from './ducks/tags/contracts/state';
 import { TweetsState } from './ducks/tweets/contracts/state';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -9,6 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export interface RootState {
   tweets: TweetsState;
+  tags: TagsState;
 }
 
 export const store = createStore(
