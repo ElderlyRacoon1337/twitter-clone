@@ -36,7 +36,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
         <Avatar
           alt="Аватарка пользователя"
           sx={{ width: '50px', height: '50px', mr: '15px' }}
-          src="https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+          src={tweetData.user.avatarUrl}
         />
       </Box>
       <Box>
@@ -48,7 +48,9 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
             {tweetData.user.userName}
           </Typography>
           <Typography mr="5px">·</Typography>
-          <Typography color={'textSecondary'}>{tweetData.createdAt}</Typography>
+          <Typography color={'textSecondary'}>
+            {tweetData.createdAt.split(' ').slice(0, 5).join(' ')}
+          </Typography>
         </Stack>
         <Typography>{tweetData.text}</Typography>
         <Stack

@@ -24,7 +24,15 @@ const DialogComponent: React.FC<DialogProps> = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog
+      open={open}
+      sx={{
+        '& .MuiPaper-root': {
+          borderRadius: '20px',
+        },
+      }}
+      onClose={handleClose}
+    >
       <Stack
         alignItems={'center'}
         maxWidth={'400px'}

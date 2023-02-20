@@ -2,30 +2,44 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   IconButton,
   Stack,
-  styled,
   TextareaAutosize,
+  Typography,
 } from '@mui/material';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
+import { ChangeEvent, useState } from 'react';
 
-const AddTweet = () => {
-  const StyledInput = styled(TextareaAutosize)({
-    border: 'none',
-    width: '400px',
-    outline: 'none',
-    resize: 'none',
-    fontSize: 20,
-    fontFamily: 'inherit',
-    marginTop: '10px',
-  });
+interface AddTweetProps {
+  setOpen?: any;
+}
+
+const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
+  const [text, setText] = useState<string>('');
+  const textLimitPercent = (text.length / 280) * 100;
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e.currentTarget) {
+      console.log(e.currentTarget);
+      setText(e.currentTarget.value);
+      e.currentTarget.focus();
+    }
+  };
+
+  const handleClickAddTweet = (): void => {
+    setText('');
+    setOpen(false);
+  };
+
   return (
     <Stack
       direction={'row'}
       sx={{
         padding: '20px',
-        borderBottom: '10px solid #eee',
       }}
     >
       <Box>
@@ -36,7 +50,23 @@ const AddTweet = () => {
         />
       </Box>
       <Box sx={{ width: '100%' }}>
-        <StyledInput placeholder="Что происходит?" />
+        <TextareaAutosize
+          maxRows={15}
+          autoFocus
+          onChange={handleChange}
+          value={text}
+          placeholder="Что происходит?"
+          maxLength={350}
+          style={{
+            border: 'none',
+            width: '400px',
+            outline: 'none',
+            resize: 'none',
+            fontSize: 20,
+            fontFamily: 'inherit',
+            marginTop: '10px',
+          }}
+        />
         <Stack direction={'row'} justifyContent={'space-between'} mt="30px">
           <Box>
             <IconButton
@@ -59,9 +89,41 @@ const AddTweet = () => {
               <SentimentSatisfiedOutlinedIcon />
             </IconButton>
           </Box>
-          <Button variant="contained" sx={{ borderRadius: '20px' }}>
-            Твитнуть
-          </Button>
+          <Stack direction={'row'} alignItems={'center'}>
+            {text && (
+              <>
+                {textLimitPercent > 100 ? (
+                  <Typography
+                    mr={'10px'}
+                    color={'error'}
+                    // sx={{ fontSize: '12px' }}
+                  >
+                    {280 - text.length}
+                  </Typography>
+                ) : (
+                  <>
+                    <CircularProgress
+                      variant="determinate"
+                      value={textLimitPercent}
+                      size={20}
+                      sx={{
+                        mr: '10px',
+                        zIndex: 1,
+                        color: 'primary.main',
+                      }}
+                    />
+                  </>
+                )}
+              </>
+            )}
+            <Button
+              onClick={handleClickAddTweet}
+              variant="contained"
+              sx={{ borderRadius: '20px' }}
+            >
+              Твитнуть
+            </Button>
+          </Stack>
         </Stack>
       </Box>
     </Stack>

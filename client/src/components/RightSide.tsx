@@ -1,10 +1,7 @@
 import {
   Avatar,
   Box,
-  Button,
   IconButton,
-  InputAdornment,
-  InputBase,
   List,
   ListItemButton,
   ListItemIcon,
@@ -12,47 +9,25 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { Search } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
+import { ChangeEvent, useState } from 'react';
+import { SearchRightSide } from './SearchRightSide';
 
 const RightSide: React.FC = (): React.ReactElement => {
+  const [text, setText] = useState<string>('');
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e.currentTarget) {
+      setText(e.currentTarget.value);
+    }
+  };
+
   return (
     <Stack sx={{ flex: 4, pt: 1, pl: '30px' }}>
       <Box sx={{ position: 'fixed' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <InputBase
-            placeholder="Поиск в Твиттере"
-            sx={{
-              width: '300px',
-              borderRadius: '20px',
-              // bgcolor: '#E6ECF0',
-              bgcolor: grey[200],
-              p: '5px 15px',
-              border: '1px solid',
-              borderColor: 'white',
-              '&.Mui-focused': {
-                '& svg': {
-                  color: 'primary.main',
-                },
-                bgcolor: 'white',
-                border: '1px solid',
-                borderColor: 'primary.main',
-              },
-            }}
-            startAdornment={
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            }
-          />
-        </Box>
-
+        <SearchRightSide text={text} handleChange={handleChange} />
         <Stack
           sx={{
             bgcolor: grey[100],
@@ -105,11 +80,12 @@ const RightSide: React.FC = (): React.ReactElement => {
           </Typography>
           <List>
             <ListItemButton
+              disableRipple
               sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
             >
               <ListItemIcon>
                 <Avatar
-                  sx={{ width: '40px', height: '45px' }}
+                  sx={{ width: '45px', height: '45px' }}
                   src="https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
                 />
               </ListItemIcon>
@@ -125,11 +101,12 @@ const RightSide: React.FC = (): React.ReactElement => {
               </Button> */}
             </ListItemButton>
             <ListItemButton
+              disableRipple
               sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
             >
               <ListItemIcon>
                 <Avatar
-                  sx={{ width: '40px', height: '45px' }}
+                  sx={{ width: '45px', height: '45px' }}
                   src="https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
                 />
               </ListItemIcon>

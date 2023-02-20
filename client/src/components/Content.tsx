@@ -1,9 +1,31 @@
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
-import { Box, Stack, Typography } from '@mui/material';
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
 import AddTweet from './AddTweet';
 import Tweet from './Tweet';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import {
+  selectIsLoadingState,
+  selectTweets,
+  selectTweetsItems,
+} from '../store/ducks/tweets/selectors';
+import { fetchTweets } from '../store/ducks/tweets/actionCreators';
 
 const Content: React.FC = (): React.ReactElement => {
+  const dispatch = useDispatch();
+  const tweets = useSelector(selectTweetsItems);
+  const isLoading = useSelector(selectIsLoadingState);
+
+  useEffect(() => {
+    dispatch(fetchTweets());
+  }, []);
+
   const tweetData = {
     user: {
       fullName: 'Nigerka27',
@@ -42,17 +64,31 @@ const Content: React.FC = (): React.ReactElement => {
           <Typography variant="h6" fontWeight={'bold'}>
             Главная
           </Typography>
-          <AutoAwesomeOutlinedIcon color="primary" sx={{ fontSize: '30px' }} />
+          <AutoAwesomeOutlinedIcon
+            color="primary"
+            sx={{ fontSize: '30px', bgcolor: 'white' }}
+          />
         </Stack>
         <AddTweet />
-        <Box>
-          <Tweet tweetData={tweetData} />
-          <Tweet tweetData={tweetData} />
-          <Tweet tweetData={tweetData} />
-          <Tweet tweetData={tweetData} />
-          <Tweet tweetData={tweetData} />
-          <Tweet tweetData={tweetData} />
-          <Tweet tweetData={tweetData} />
+        <Box sx={{ borderBottom: '13px solid #eee' }}></Box>
+        <Box sx={{ position: 'relative' }}>
+          {!isLoading ? (
+            tweets.map((el) => <Tweet key={el._id} tweetData={el} />)
+          ) : (
+            <CircularProgress
+              color="primary"
+              sx={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: '150px',
+                ml: 'auto',
+                mr: 'auto',
+                height: '50px',
+                width: '50px',
+              }}
+            />
+          )}
         </Box>
       </Box>
     </Stack>
