@@ -10,3 +10,12 @@ export const selectIsLoadedState = (state: RootState): boolean =>
 
 export const selectIsLoadingState = (state: RootState): boolean =>
   state.tweets.loadingState === LoadingState.LOADING;
+
+export const selectIsAddedTweet = (state: RootState): boolean =>
+  state.tweets.addFormLoadingState === LoadingState.LOADED;
+
+export const selectIsErrorAddedTweet = (state: RootState): boolean =>
+  state.tweets.addFormLoadingState === LoadingState.ERROR;
+
+export const selectIsLoadingAddedTweet = (state: RootState): boolean =>
+  state.tweets.addFormLoadingState === LoadingState.LOADING;

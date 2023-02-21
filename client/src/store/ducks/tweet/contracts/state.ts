@@ -19,8 +19,7 @@ export interface Tweet {
   createdAt: string;
 }
 
-export interface TweetsState {
-  items: Tweet[];
+export interface TweetState {
+  tweet: Tweet[] | undefined;
   loadingState: LoadingState;
-  addFormLoadingState: LoadingState;
 }

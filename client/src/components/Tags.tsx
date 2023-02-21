@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   List,
   ListItemButton,
   ListItemText,
@@ -25,12 +26,13 @@ const Tags: React.FC = (): React.ReactElement => {
         mt: '20px',
         p: '5px 0',
         minHeight: '300px',
+        position: 'relative',
       }}
     >
       <Typography variant="h6" fontWeight={'bold'} sx={{ pt: 2, pl: 2 }}>
         Актуальные темы
       </Typography>
-      {!tagsIsLoading && (
+      {!tagsIsLoading ? (
         <List sx={{ position: 'relative' }}>
           {tags.map((el, i) => (
             <Link
@@ -50,6 +52,21 @@ const Tags: React.FC = (): React.ReactElement => {
             </Link>
           ))}
         </List>
+      ) : (
+        <CircularProgress
+          sx={{
+            zIndex: 1,
+            color: 'primary.main',
+            position: 'absolute',
+            m: 'auto',
+            height: '50px',
+            width: '50px',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+          }}
+        />
       )}
     </Stack>
   );

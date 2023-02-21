@@ -1,24 +1,70 @@
 import {
+  Alert,
   Avatar,
   Box,
   Button,
   CircularProgress,
   IconButton,
+  Snackbar,
   Stack,
   TextareaAutosize,
   Typography,
 } from '@mui/material';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchAddTweet,
+  setFormLoadingState,
+} from '../store/ducks/tweets/actionCreators';
+import {
+  selectIsAddedTweet,
+  selectIsErrorAddedTweet,
+  selectIsLoadingAddedTweet,
+} from '../store/ducks/tweets/selectors';
+import { LoadingState } from '../store/ducks/tweets/contracts/state';
 
 interface AddTweetProps {
   setOpen?: any;
 }
 
 const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
+  const dispatch = useDispatch();
   const [text, setText] = useState<string>('');
   const textLimitPercent = (text.length / 280) * 100;
+  const [openSnack, setOpenSnack] = useState<boolean>(false);
+  const [errorSnack, setErrorSnack] = useState<boolean>(false);
+
+  const isSuccess = useSelector(selectIsAddedTweet);
+  const isError = useSelector(selectIsErrorAddedTweet);
+  const isLoading = useSelector(selectIsLoadingAddedTweet);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setFormLoadingState(LoadingState.NEVER));
+    };
+  }, []);
+
+  useEffect(() => {
+    setOpenSnack(isSuccess);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    setErrorSnack(isError);
+  }, [isError]);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+    setErrorSnack(false);
+  };
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -31,6 +77,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
   };
 
   const handleClickAddTweet = (): void => {
+    dispatch(fetchAddTweet(text));
     setText('');
     setOpen(false);
   };
@@ -42,6 +89,36 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
         padding: '20px',
       }}
     >
+      <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          sx={{
+            width: '100%',
+            bgcolor: 'primary.main',
+            borderRadius: '10px',
+            '& .MuiAlert-icon, .MuiAlert-message, .MuiAlert-action': {
+              color: 'white',
+            },
+          }}
+        >
+          Твит успешно опубликован
+        </Alert>
+      </Snackbar>
+      <Snackbar open={errorSnack} autoHideDuration={3000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          sx={{
+            width: '100%',
+            bgcolor: 'error.main',
+            borderRadius: '10px',
+            '& .MuiAlert-icon, .MuiAlert-message, .MuiAlert-action': {
+              color: 'white',
+            },
+          }}
+        >
+          Ошибка при публикации твита
+        </Alert>
+      </Snackbar>
       <Box>
         <Avatar
           alt="Аватарка пользователя"
@@ -56,7 +133,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
           onChange={handleChange}
           value={text}
           placeholder="Что происходит?"
-          maxLength={350}
+          // maxLength={350}
           style={{
             border: 'none',
             width: '400px',
@@ -95,7 +172,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
                 {textLimitPercent > 100 ? (
                   <Typography
                     mr={'10px'}
-                    color={'error'}
+                    color={'warning.light'}
                     // sx={{ fontSize: '12px' }}
                   >
                     {280 - text.length}
@@ -118,10 +195,20 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
             )}
             <Button
               onClick={handleClickAddTweet}
+              disabled={!text || text.length > 350}
               variant="contained"
-              sx={{ borderRadius: '20px' }}
+              sx={{ borderRadius: '20px', width: '110px', height: '40px' }}
             >
-              Твитнуть
+              {!isLoading ? (
+                <>Твитнуть</>
+              ) : (
+                <CircularProgress
+                  size={20}
+                  sx={{
+                    color: 'white',
+                  }}
+                />
+              )}
             </Button>
           </Stack>
         </Stack>

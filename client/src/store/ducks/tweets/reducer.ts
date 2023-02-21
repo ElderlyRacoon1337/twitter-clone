@@ -5,6 +5,7 @@ import produce, { Draft } from 'immer';
 const initialTweetsState: TweetsState = {
   items: [],
   loadingState: LoadingState.NEVER,
+  addFormLoadingState: LoadingState.NEVER,
 };
 
 export const tweetsReducer = produce(
@@ -22,6 +23,19 @@ export const tweetsReducer = produce(
 
       case TweetsActionsType.SET_LOADING_STATE:
         draft.loadingState = action.payload;
+        break;
+
+      case TweetsActionsType.FETCH_ADD_TWEET:
+        draft.addFormLoadingState = LoadingState.LOADING;
+        break;
+
+      case TweetsActionsType.ADD_TWEET:
+        draft.items.unshift(action.payload);
+        draft.addFormLoadingState = LoadingState.LOADED;
+        break;
+
+      case TweetsActionsType.SET_FORM_LOADING_STATE:
+        draft.addFormLoadingState = action.payload;
         break;
 
       default:

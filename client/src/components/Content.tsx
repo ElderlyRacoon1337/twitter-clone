@@ -18,22 +18,18 @@ import { fetchTweets } from '../store/ducks/tweets/actionCreators';
 import { fetchTags } from '../store/ducks/tags/actionCreators';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import FullTweet from './FullTweet';
 
 const Content: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const tweets = useSelector(selectTweetsItems);
   const isLoading = useSelector(selectIsLoadingState);
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchTweets());
     dispatch(fetchTags());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchTweets());
-  }, [location]);
 
   const tweetData = {
     user: {
@@ -177,7 +173,9 @@ const Content: React.FC = (): React.ReactElement => {
                     sx={{ fontSize: '30px', bgcolor: 'white' }}
                   />
                 </Stack>
-                <Box sx={{ position: 'relative' }}></Box>
+                <Box>
+                  <FullTweet />
+                </Box>
               </>
             }
           />
