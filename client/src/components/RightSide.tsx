@@ -27,7 +27,11 @@ const RightSide: React.FC = (): React.ReactElement => {
 
   return (
     <Stack sx={{ flex: 4, pt: 1, pl: '30px' }}>
-      <Box sx={{ position: 'fixed' }}>
+      <Box
+        sx={{
+          position: 'fixed',
+        }}
+      >
         <SearchRightSide text={text} handleChange={handleChange} />
         <Tags />
         <Stack

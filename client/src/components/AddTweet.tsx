@@ -169,7 +169,11 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
           <Stack direction={'row'} alignItems={'center'}>
             {text && (
               <>
-                {textLimitPercent > 100 ? (
+                {text.length > 350 ? (
+                  <Typography mr={'10px'} color={'error.light'}>
+                    {280 - text.length}
+                  </Typography>
+                ) : textLimitPercent > 100 && text.length <= 350 ? (
                   <Typography
                     mr={'10px'}
                     color={'warning.light'}
@@ -178,18 +182,16 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
                     {280 - text.length}
                   </Typography>
                 ) : (
-                  <>
-                    <CircularProgress
-                      variant="determinate"
-                      value={textLimitPercent}
-                      size={20}
-                      sx={{
-                        mr: '10px',
-                        zIndex: 1,
-                        color: 'primary.main',
-                      }}
-                    />
-                  </>
+                  <CircularProgress
+                    variant="determinate"
+                    value={textLimitPercent}
+                    size={20}
+                    sx={{
+                      mr: '10px',
+                      zIndex: 1,
+                      color: 'primary.main',
+                    }}
+                  />
                 )}
               </>
             )}
