@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { UserModel } from '../models/UserModel';
+import { UserDocumentInterface, UserModel } from '../models/UserModel';
 import bcrypt from 'bcrypt';
 import { generateMD5 } from '../utils/generateHash';
 import { sendEmail } from '../utils/sendEmail';
 import { isValidObjectId } from 'mongoose';
+import jwt from 'jsonwebtoken';
 
 class UserController {
   async index(_: any, res: Response): Promise<void> {
@@ -21,21 +22,35 @@ class UserController {
       const userId = req.params.id;
 
       if (!isValidObjectId(userId)) {
-        res.status(400);
+        res.status(400).json({ message: 'Not found' });
         return;
       }
 
-      const user = await UserModel.findById(userId).select(
-        '+passwordHash +confirmedHash'
-      );
+      const user = await UserModel.findById(userId);
 
       if (user) {
-        res.status(200).json(user);
+        // @ts-ignore
+        const { passwordHash, confirmedHash, ...userData } = user._doc;
+        res.status(200).json(userData);
       } else {
         res.status(404).json({ message: 'Not found' });
       }
     } catch (error) {
       res.status(500).json({ message: error });
+      console.log(error);
+    }
+  }
+
+  async getUserInfo(req: Request, res: Response): Promise<void> {
+    try {
+      const user = (req.user as any).toJSON();
+      console.log(user);
+      if (user) {
+        const { passwordHash, confirmedHash, ...userData } = user;
+        res.status(200).json(userData);
+      }
+    } catch (error) {
+      res.status(500).json(error);
       console.log(error);
     }
   }
@@ -74,7 +89,17 @@ class UserController {
         `,
       });
 
-      res.status(201).json(user);
+      const _user = (user as UserDocumentInterface).toJSON();
+      const { passwordHash, confirmedHash, ...userData } = _user;
+      const token = jwt.sign(
+        userData,
+        process.env.SECRET_JWT || 'j4j4f98f34fi',
+        {
+          expiresIn: '30 days',
+        }
+      );
+
+      res.status(201).json({ ...userData, token });
     } catch (error) {
       res.status(500).json({ message: error });
     }
@@ -99,6 +124,24 @@ class UserController {
         res.status(404).json({ message: 'Пользователь не найден' });
       }
     } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  }
+
+  async afterSignIn(req: Request, res: Response): Promise<void> {
+    try {
+      const user = (req.user as UserDocumentInterface).toJSON();
+      const { passwordHash, confirmedHash, ...userData } = user;
+      const token = jwt.sign(
+        userData,
+        process.env.SECRET_JWT || 'j4j4f98f34fi',
+        {
+          expiresIn: '30 days',
+        }
+      );
+      res.status(200).json({ ...userData, token });
+    } catch (error) {
+      console.log(error);
       res.status(500).json({ message: error });
     }
   }
