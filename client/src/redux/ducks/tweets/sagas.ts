@@ -21,19 +21,7 @@ function* fetchTweetsRequest() {
 }
 
 function* fetchAddTweetRequest(action: FetchAddTweetActionInterface) {
-  const tweet: Tweet = {
-    _id: Math.random().toString(36).substring(2),
-    text: action.payload,
-    createdAt: new Date().toLocaleString('ru'),
-    likesCount: 0,
-    commentsCount: 0,
-    retweetsCount: 0,
-    user: {
-      fullName: 'Test Userrr',
-      userName: 'textuser1488',
-      avatarUrl: 'https://sourse/unsplash.com/random',
-    },
-  };
+  const tweet = action.payload;
   try {
     // @ts-ignore
     const data = yield call(TweetsApi.addTweet, tweet);

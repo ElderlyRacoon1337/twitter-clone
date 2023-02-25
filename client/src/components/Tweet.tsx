@@ -5,19 +5,21 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../utils/formatDate';
 
 interface TweetProps {
   tweetData: {
     user: {
+      _id: any;
       fullName: string;
       userName: string;
-      avatarUrl: string;
+      avatarUrl?: string;
     };
-    _id: string;
+    _id: any;
     text: string;
-    commentsCount: number;
-    retweetsCount: number;
-    likesCount: number;
+    comments: string[];
+    retweets: string[];
+    likes: string[];
     createdAt: string;
   };
 }
@@ -42,10 +44,10 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
           <Avatar
             alt="Аватарка пользователя"
             sx={{ width: '50px', height: '50px', mr: '15px' }}
-            src={tweetData.user.avatarUrl}
+            src={tweetData?.user?.avatarUrl}
           />
         </Box>
-        <Box>
+        <Box sx={{ flex: 1 }}>
           <Stack direction={'row'} mb="5px">
             <Typography fontWeight={'bold'} mr="10px">
               {tweetData.user.fullName}
@@ -55,7 +57,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
             </Typography>
             <Typography mr="5px">·</Typography>
             <Typography color={'textSecondary'}>
-              {tweetData.createdAt.split(' ').slice(0, 5).join(' ')}
+              {formatDate(new Date(tweetData.createdAt))}
             </Typography>
           </Stack>
           <Typography>{tweetData.text}</Typography>
@@ -77,7 +79,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
               >
                 <ModeCommentOutlinedIcon />
               </IconButton>
-              <Typography>{tweetData.commentsCount}</Typography>
+              <Typography>{tweetData.comments.length}</Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton
@@ -85,7 +87,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
               >
                 <RepeatOutlinedIcon />
               </IconButton>
-              <Typography>{tweetData.retweetsCount}</Typography>
+              <Typography>{tweetData.retweets.length}</Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton
@@ -93,7 +95,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
               >
                 <FavoriteBorderOutlinedIcon />
               </IconButton>
-              <Typography>{tweetData.likesCount}</Typography>
+              <Typography>{tweetData.likes.length}</Typography>
             </Box>
             <IconButton
               sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}

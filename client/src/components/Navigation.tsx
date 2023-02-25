@@ -155,14 +155,16 @@ const Navigation: React.FC = (): React.ReactElement => {
       <Dialog
         open={open}
         onClose={(e) => setOpen(false)}
-        sx={{ '& .MuiPaper-root': { borderRadius: '30px', bottom: '100px' } }}
+        sx={{
+          '& .MuiPaper-root': { borderRadius: '20px', bottom: '100px' },
+        }}
       >
         <Stack
           direction={'row'}
           alignItems={'center'}
           sx={{
             width: '100%',
-            height: '50px',
+            height: '55px',
             borderBottom: '2px solid',
             borderColor: grey[200],
           }}

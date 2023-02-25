@@ -187,6 +187,20 @@
         "avatarUrl": "https://sourse/unsplash.com/random"
       },
       "id": 6
+    },
+    {
+      "_id": "hlilpjaj5v4",
+      "text": "ацуацуацуа",
+      "createdAt": "25.02.2023, 14:44:37",
+      "likesCount": 0,
+      "commentsCount": 0,
+      "retweetsCount": 0,
+      "user": {
+        "fullName": "Test Userrr",
+        "userName": "textuser1488",
+        "avatarUrl": "https://sourse/unsplash.com/random"
+      },
+      "id": 7
     }
   ],
   "user": {

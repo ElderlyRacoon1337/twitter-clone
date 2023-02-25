@@ -1,7 +1,7 @@
 import { Document, model, Schema } from 'mongoose';
 
 export interface UserType {
-  _id?: string;
+  _id?: Schema.Types.ObjectId;
   email: string;
   fullName: string;
   userName: string;
@@ -15,38 +15,43 @@ export interface UserType {
 
 export type UserDocumentInterface = UserType & Document;
 
-const UserSchema = new Schema<UserType>({
-  email: {
-    unique: true,
-    required: true,
-    type: String,
+const UserSchema = new Schema<UserType>(
+  {
+    email: {
+      unique: true,
+      required: true,
+      type: String,
+    },
+    fullName: {
+      required: true,
+      type: String,
+    },
+    userName: {
+      unique: true,
+      required: true,
+      type: String,
+    },
+    passwordHash: {
+      required: true,
+      type: String,
+      // select: false,
+    },
+    confirmed: {
+      type: Boolean,
+      default: false,
+    },
+    confirmedHash: {
+      required: true,
+      type: String,
+      // select: false,
+    },
+    location: String,
+    about: String,
+    website: String,
   },
-  fullName: {
-    required: true,
-    type: String,
-  },
-  userName: {
-    unique: true,
-    required: true,
-    type: String,
-  },
-  passwordHash: {
-    required: true,
-    type: String,
-    // select: false,
-  },
-  confirmed: {
-    type: Boolean,
-    default: false,
-  },
-  confirmedHash: {
-    required: true,
-    type: String,
-    // select: false,
-  },
-  location: String,
-  about: String,
-  website: String,
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const UserModel = model('User', UserSchema);

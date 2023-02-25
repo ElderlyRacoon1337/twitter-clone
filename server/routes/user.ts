@@ -6,28 +6,28 @@ import { passport } from '../core/signIn';
 
 const router = express.Router();
 
-router.get('/users', UserCtrl.index);
+router.get('/', UserCtrl.index);
 router.get(
-  '/users/me',
+  '/me',
   passport.authenticate('jwt', { session: false }),
   UserCtrl.getUserInfo
 );
-router.get('/users/verify', UserCtrl.verify);
-router.get('/users/:id', UserCtrl.show);
+router.get('/verify', UserCtrl.verify);
 // router.patch('/users', UserCtrl.update);
 // router.delete('/users', UserCtrl.delete);
 router.post(
-  '/auth/signup',
+  '/signup',
   registerValidations,
   handleValidationErrors,
   UserCtrl.create
 );
 router.post(
-  '/auth/signin',
+  '/signin',
   passport.authenticate('local', {
     session: false,
   }),
   UserCtrl.afterSignIn
 );
+router.get('/:id', UserCtrl.show);
 
 export default router;

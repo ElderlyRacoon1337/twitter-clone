@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchTweet, setTweet } from '../store/ducks/tweet/actionCreators';
+import { fetchTweet, setTweet } from '../redux/ducks/tweet/actionCreators';
 import {
   selectIsLoadingState,
   selectTweetItem,
-} from '../store/ducks/tweet/selectors';
+} from '../redux/ducks/tweet/selectors';
 
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
@@ -20,6 +20,7 @@ import {
   Typography,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { formatDate } from '../utils/formatDate';
 
 const FullTweet: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
@@ -86,7 +87,7 @@ const FullTweet: React.FC = (): React.ReactElement => {
               {tweetData.text}
             </Typography>
             <Typography mb={'10px'} color={'textSecondary'}>
-              {tweetData.createdAt.split(' ').slice(0, 5).join(' ')}
+              {formatDate(new Date(tweetData.createdAt))}
             </Typography>
             <Box
               sx={{
@@ -104,7 +105,7 @@ const FullTweet: React.FC = (): React.ReactElement => {
                     marginRight: '5px',
                   }}
                 >
-                  {tweetData.likesCount}
+                  {tweetData.likes.length}
                 </span>
                 отметок «Нравится»
               </Typography>
@@ -128,7 +129,7 @@ const FullTweet: React.FC = (): React.ReactElement => {
                   >
                     <ModeCommentOutlinedIcon />
                   </IconButton>
-                  <Typography>{tweetData.commentsCount}</Typography>
+                  <Typography>{tweetData.comments.length}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <IconButton
@@ -136,7 +137,7 @@ const FullTweet: React.FC = (): React.ReactElement => {
                   >
                     <RepeatOutlinedIcon />
                   </IconButton>
-                  <Typography>{tweetData.retweetsCount}</Typography>
+                  <Typography>{tweetData.retweets.length}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <IconButton
@@ -144,7 +145,6 @@ const FullTweet: React.FC = (): React.ReactElement => {
                   >
                     <FavoriteBorderOutlinedIcon />
                   </IconButton>
-                  <Typography>{tweetData.likesCount}</Typography>
                 </Box>
                 <IconButton
                   sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}

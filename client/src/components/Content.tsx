@@ -13,9 +13,9 @@ import { useEffect } from 'react';
 import {
   selectIsLoadingState,
   selectTweetsItems,
-} from '../store/ducks/tweets/selectors';
-import { fetchTweets } from '../store/ducks/tweets/actionCreators';
-import { fetchTags } from '../store/ducks/tags/actionCreators';
+} from '../redux/ducks/tweets/selectors';
+import { fetchTweets } from '../redux/ducks/tweets/actionCreators';
+import { fetchTags } from '../redux/ducks/tags/actionCreators';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FullTweet from './FullTweet';
@@ -30,20 +30,6 @@ const Content: React.FC = (): React.ReactElement => {
     dispatch(fetchTweets());
     dispatch(fetchTags());
   }, [dispatch]);
-
-  const tweetData = {
-    user: {
-      fullName: 'Nigerka27',
-      userName: 'nigerka1488',
-      avatarUrl:
-        'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-732x549.jpg',
-    },
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam minus sint voluptate, atque ut, placeat unde explicabo, quidem cupiditate facilis quis iure id incidunt quasi corrupti est dolor magni numquam.',
-    commentsCount: 2,
-    retweetsCount: 1,
-    likesCount: 3,
-    createdAt: '17 февраля в 20:34',
-  };
 
   const handleClickBack = () => {
     navigate(-1);
@@ -89,6 +75,7 @@ const Content: React.FC = (): React.ReactElement => {
                 <Box sx={{ borderBottom: '13px solid #eee' }}></Box>
                 <Box sx={{ position: 'relative' }}>
                   {!isLoading ? (
+                    // @ts-ignore
                     tweets.map((el) => <Tweet key={el._id} tweetData={el} />)
                   ) : (
                     <CircularProgress

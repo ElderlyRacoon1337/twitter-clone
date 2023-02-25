@@ -1,33 +1,31 @@
 import express from 'express';
-import { registerValidations } from '../validations/register';
+import { createTweetValidations } from '../validations/cteateTweet';
 import handleValidationErrors from '../middleware/handleValidationErrors';
-import { UserCtrl } from '../controllers/UserController';
+import { TweetsCtrl } from '../controllers/TweetsController';
 import { passport } from '../core/signIn';
 
 const router = express.Router();
 
-router.get('/users', UserCtrl.index);
-router.get(
-  '/users/me',
+router.get('/', TweetsCtrl.index);
+router.get('/:id', TweetsCtrl.show);
+router.delete(
+  '/:id',
   passport.authenticate('jwt', { session: false }),
-  UserCtrl.getUserInfo
+  TweetsCtrl.delete
 );
-router.get('/users/verify', UserCtrl.verify);
-router.get('/users/:id', UserCtrl.show);
-// router.patch('/users', UserCtrl.update);
-// router.delete('/users', UserCtrl.delete);
-router.post(
-  '/auth/signup',
-  registerValidations,
+router.patch(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  createTweetValidations,
   handleValidationErrors,
-  UserCtrl.create
+  TweetsCtrl.update
 );
 router.post(
-  '/auth/signin',
-  passport.authenticate('local', {
-    session: false,
-  }),
-  UserCtrl.afterSignIn
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  createTweetValidations,
+  handleValidationErrors,
+  TweetsCtrl.create
 );
 
 export default router;

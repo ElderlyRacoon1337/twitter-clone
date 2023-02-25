@@ -36,7 +36,7 @@ const DialogComponent: React.FC<DialogProps> = ({
       <Stack
         alignItems={'center'}
         maxWidth={'400px'}
-        sx={{ pt: 2, borderRadius: 20 }}
+        sx={{ p: 2, pt: 3, px: 1, borderRadius: 20 }}
       >
         <TwitterIcon color="primary" sx={{ fontSize: '40px' }} />
         {isSignUp ? (

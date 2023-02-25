@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import {
   selectTagsItems,
   selectIsLoadingState,
-} from '../store/ducks/tags/selectors';
+} from '../redux/ducks/tags/selectors';
 
 const Tags: React.FC = (): React.ReactElement => {
   const tags = useSelector(selectTagsItems);

@@ -1,16 +1,19 @@
-import { Tweet } from './../store/ducks/tweets/contracts/state';
-import axios from 'axios';
+import { Tweet } from '../redux/ducks/tweets/contracts/state';
+import axios from '../axios';
 
 export const TweetsApi = {
-  fetchTweets(): Promise<Tweet[]> {
-    return axios.get('/tweets').then(({ data }) => data);
+  async fetchTweets(): Promise<Tweet[]> {
+    const { data } = await axios.get('/tweets');
+    return data;
   },
 
-  fetchTweet(id: string): Promise<Tweet[]> {
-    return axios.get(`/tweets/?_id=${id}`).then(({ data }) => data);
+  async fetchTweet(id: string): Promise<Tweet> {
+    const { data } = await axios.get(`/tweets/?id=${id}`);
+    return data;
   },
 
-  addTweet(tweet: Tweet): Promise<Tweet> {
-    return axios.post(`/tweets`, tweet).then(({ data }) => data);
+  async addTweet(text: string): Promise<Tweet> {
+    const { data } = await axios.post(`/tweets`, { text: text });
+    return data;
   },
 };

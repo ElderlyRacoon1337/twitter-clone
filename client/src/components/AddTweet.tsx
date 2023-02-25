@@ -17,13 +17,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchAddTweet,
   setFormLoadingState,
-} from '../store/ducks/tweets/actionCreators';
+} from '../redux/ducks/tweets/actionCreators';
 import {
   selectIsAddedTweet,
   selectIsErrorAddedTweet,
   selectIsLoadingAddedTweet,
-} from '../store/ducks/tweets/selectors';
-import { LoadingState } from '../store/ducks/tweets/contracts/state';
+} from '../redux/ducks/tweets/selectors';
+import { LoadingState } from '../redux/ducks/tweets/contracts/state';
 
 interface AddTweetProps {
   setOpen?: any;
@@ -79,7 +79,9 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
   const handleClickAddTweet = (): void => {
     dispatch(fetchAddTweet(text));
     setText('');
-    setOpen(false);
+    if (setOpen) {
+      setOpen(false);
+    }
   };
 
   return (

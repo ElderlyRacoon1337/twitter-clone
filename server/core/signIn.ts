@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { UserModel, UserType } from '../models/UserModel';
+import { UserModel } from '../models/UserModel';
 import bcrypt from 'bcrypt';
 import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 
@@ -31,22 +31,6 @@ passport.use(
     );
   })
 );
-
-// passport.use(
-//   new JWTstrategy(
-//     {
-//       secretOrKey: process.env.SECRET_JWT || 'sfj4iji4j',
-//       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-//     },
-//     (token, done) => {
-//       try {
-//         return done(null, token.user);
-//       } catch (error) {
-//         done(error);
-//       }
-//     }
-//   )
-// );
 
 passport.use(
   new JWTstrategy(

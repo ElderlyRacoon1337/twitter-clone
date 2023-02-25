@@ -1,4 +1,4 @@
-import { Tag } from './../store/ducks/tags/contracts/state';
+import { Tag } from '../redux/ducks/tags/contracts/state';
 import axios from 'axios';
 
 export const TagsApi = {

@@ -13,9 +13,9 @@ export interface Tweet {
     avatarUrl: string;
   };
   text: string;
-  commentsCount: number;
-  retweetsCount: number;
-  likesCount: number;
+  comments: string[];
+  retweets: string[];
+  likes: string[];
   createdAt: string;
 }
 
