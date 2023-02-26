@@ -11,7 +11,7 @@ export const tweetReducer = produce(
   (draft: Draft<TweetState>, action: TweetActions) => {
     switch (action.type) {
       case TweetActionsType.FETCH_TWEET:
-        draft.tweet = [];
+        draft.tweet = undefined;
         draft.loadingState = LoadingState.LOADING;
         break;
 

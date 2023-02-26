@@ -8,7 +8,7 @@ export const TweetsApi = {
   },
 
   async fetchTweet(id: string): Promise<Tweet> {
-    const { data } = await axios.get(`/tweets/?id=${id}`);
+    const { data } = await axios.get(`/tweets/${id}`);
     return data;
   },
 

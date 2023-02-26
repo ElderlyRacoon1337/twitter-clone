@@ -9,7 +9,7 @@ export enum TweetActionsType {
 
 export interface SetTweetActionInterface extends Action<TweetActionsType> {
   type: TweetActionsType.SET_TWEET;
-  payload: Tweet[] | undefined;
+  payload: Tweet | undefined;
 }
 
 export interface SetTweetLoadingStateActionInterface
@@ -24,7 +24,7 @@ export interface FetchTweetActionInterface extends Action<TweetActionsType> {
 }
 
 export const setTweet = (
-  payload: Tweet[] | undefined
+  payload: Tweet | undefined
 ): SetTweetActionInterface => {
   return {
     type: TweetActionsType.SET_TWEET,

@@ -21,14 +21,14 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { formatDate } from '../utils/formatDate';
+import { format } from 'date-fns';
+import ru from 'date-fns/locale/ru';
 
 const FullTweet: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const params = useParams();
-  const tweet = useSelector(selectTweetItem) || [];
-  const tweetData = tweet[0];
+  const tweetData = useSelector(selectTweetItem);
   const isLoading = useSelector(selectIsLoadingState);
-  console.log(isLoading);
 
   useEffect(() => {
     if (params.id) {
@@ -86,9 +86,21 @@ const FullTweet: React.FC = (): React.ReactElement => {
             <Typography mb={'20px'} fontSize={'18px'}>
               {tweetData.text}
             </Typography>
-            <Typography mb={'10px'} color={'textSecondary'}>
-              {formatDate(new Date(tweetData.createdAt))}
-            </Typography>
+            <Stack direction={'row'}>
+              <Typography mb={'10px'} mr="5px" color={'textSecondary'}>
+                {format(new Date(tweetData.createdAt), 'H:mm:ss', {
+                  locale: ru,
+                })}
+              </Typography>
+              <Typography mr="5px" color={'textSecondary'}>
+                ·
+              </Typography>
+              <Typography mb={'10px'} color={'textSecondary'}>
+                {format(new Date(tweetData.createdAt), 'dd MMM yyyy г.', {
+                  locale: ru,
+                })}
+              </Typography>
+            </Stack>
             <Box
               sx={{
                 borderTop: '1px solid',

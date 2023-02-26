@@ -2,10 +2,20 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../utils/formatDate';
+import { MoreVertOutlined } from '@mui/icons-material';
+import { useState } from 'react';
 
 interface TweetProps {
   tweetData: {
@@ -24,11 +34,21 @@ interface TweetProps {
   };
 }
 
+const options = ['Редактировать', 'Удалить'];
+
 const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const navigate = useNavigate();
+  const handleClickTweet = (e: React.MouseEvent<HTMLDivElement>) => {
+    console.log(tweetData._id);
+    navigate(`/tweet/${tweetData._id}`);
+  };
   return (
-    <Link
-      to={`/tweet/${tweetData._id}`}
-      style={{ color: 'inherit', textDecoration: 'none' }}
+    <Box
+      onClick={(e) => handleClickTweet(e)}
+      sx={{ color: 'inherit', textDecoration: 'none' }}
     >
       <Stack
         direction={'row'}
@@ -36,8 +56,8 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
           padding: '20px',
           borderBottom: '1px solid #eee',
           cursor: 'pointer',
-          // '&:hover': { bgcolor: 'rgb(245,248,250)' },
-          '&:hover': { bgcolor: grey[100] },
+          '&:hover': { bgcolor: 'rgb(245,248,250)' },
+          // '&:hover': { bgcolor: grey[100] },
         }}
       >
         <Box>
@@ -55,10 +75,46 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
             <Typography color={'textSecondary'} mr="5px">
               {tweetData.user.userName}
             </Typography>
-            <Typography mr="5px">·</Typography>
-            <Typography color={'textSecondary'}>
+            <Typography color={'textSecondary'} mr="5px">
+              ·
+            </Typography>
+            <Typography color={'textSecondary'} flex={1}>
               {formatDate(new Date(tweetData.createdAt))}
             </Typography>
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? 'long-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={(event) => {
+                event.stopPropagation();
+                setAnchorEl(event.currentTarget);
+              }}
+              sx={{ mt: '-10px' }}
+            >
+              <MoreVertOutlined />
+            </IconButton>
+            <Menu
+              onClick={(e) => e.stopPropagation()}
+              id="long-menu"
+              MenuListProps={{
+                'aria-labelledby': 'long-button',
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={() => setAnchorEl(null)}
+            >
+              {options.map((option) => (
+                <MenuItem
+                  key={option}
+                  selected={option === 'Pyxis'}
+                  onClick={() => setAnchorEl(null)}
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
           </Stack>
           <Typography>{tweetData.text}</Typography>
           <Stack
@@ -75,6 +131,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
               }}
             >
               <IconButton
+                onClick={(e) => e.stopPropagation()}
                 sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
               >
                 <ModeCommentOutlinedIcon />
@@ -83,6 +140,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton
+                onClick={(e) => e.stopPropagation()}
                 sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
               >
                 <RepeatOutlinedIcon />
@@ -91,6 +149,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton
+                onClick={(e) => e.stopPropagation()}
                 sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
               >
                 <FavoriteBorderOutlinedIcon />
@@ -98,6 +157,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
               <Typography>{tweetData.likes.length}</Typography>
             </Box>
             <IconButton
+              onClick={(e) => e.stopPropagation()}
               sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
             >
               <FileUploadOutlinedIcon />
@@ -105,7 +165,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
           </Stack>
         </Box>
       </Stack>
-    </Link>
+    </Box>
   );
 };
 

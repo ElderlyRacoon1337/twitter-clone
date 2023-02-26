@@ -45,10 +45,9 @@ class TweetsController {
           // @ts-ignore
           user: user._id || '',
         };
-        const tweet = await TweetModel.create(data);
-        const newTweet = await TweetModel.findById(tweet._id).populate('user');
+        const tweet = await (await TweetModel.create(data)).populate('user');
 
-        res.status(200).json(newTweet);
+        res.status(200).json(tweet);
       }
     } catch (error) {
       res.status(500).json({ message: error });

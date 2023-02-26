@@ -20,6 +20,6 @@ export interface Tweet {
 }
 
 export interface TweetState {
-  tweet: Tweet[] | undefined;
+  tweet: Tweet | undefined;
   loadingState: LoadingState;
 }

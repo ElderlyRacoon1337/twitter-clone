@@ -12,7 +12,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import MessageIcon from '@mui/icons-material/Message';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { useState } from 'react';
-import DialogComponent from '../components/DialogComponent';
+import DialogComponent from '../components/AuthModal';
 
 const Signin = () => {
   const [open, setOpen] = useState<boolean>(false);
