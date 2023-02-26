@@ -19,8 +19,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
-import { formatDate } from '../utils/formatDate';
 import { format } from 'date-fns';
 import ru from 'date-fns/locale/ru';
 
@@ -62,10 +60,9 @@ const FullTweet: React.FC = (): React.ReactElement => {
             sx={{
               padding: '20px',
               pb: '10px',
-              borderBottom: '1px solid #eee',
+              borderBottom: '1px solid',
+              borderColor: 'divider',
               cursor: 'pointer',
-              // '&:hover': { bgcolor: 'rgb(245,248,250)' },
-              '&:hover': { bgcolor: grey[100] },
             }}
           >
             <Stack direction={'row'} mb="10px">
@@ -105,20 +102,21 @@ const FullTweet: React.FC = (): React.ReactElement => {
               sx={{
                 borderTop: '1px solid',
                 borderBottom: '1px solid',
-                borderColor: grey[200],
+                borderColor: 'divider',
                 p: '10px 0',
               }}
             >
               <Typography color={'textSecondary'}>
-                <span
-                  style={{
-                    color: 'black',
+                <Box
+                  sx={{
+                    display: 'inline',
                     fontWeight: 'bold',
                     marginRight: '5px',
+                    color: 'text.primary',
                   }}
                 >
                   {tweetData.likes.length}
-                </span>
+                </Box>
                 отметок «Нравится»
               </Typography>
             </Box>

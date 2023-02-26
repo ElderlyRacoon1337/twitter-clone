@@ -36,19 +36,28 @@ const RightSide: React.FC = (): React.ReactElement => {
         <Tags />
         <Stack
           sx={{
-            bgcolor: grey[100],
+            bgcolor: 'customGrey',
             borderRadius: '20px',
             mt: '20px',
             p: '5px 0',
           }}
         >
-          <Typography variant="h6" fontWeight={'bold'} sx={{ pt: 2, pl: 2 }}>
+          <Typography
+            variant="h6"
+            fontWeight={'bold'}
+            sx={{
+              py: 1,
+              pl: 2,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+            }}
+          >
             Кого читать
           </Typography>
           <List>
             <ListItemButton
               disableRipple
-              sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
+              sx={{ borderBottom: '1px solid', borderColor: 'divider' }}
             >
               <ListItemIcon>
                 <Avatar
@@ -69,7 +78,7 @@ const RightSide: React.FC = (): React.ReactElement => {
             </ListItemButton>
             <ListItemButton
               disableRipple
-              sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
+              sx={{ borderBottom: '1px solid', borderColor: 'divider' }}
             >
               <ListItemIcon>
                 <Avatar

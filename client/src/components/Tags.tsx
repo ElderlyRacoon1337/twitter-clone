@@ -6,7 +6,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -21,7 +20,7 @@ const Tags: React.FC = (): React.ReactElement => {
   return (
     <Stack
       sx={{
-        bgcolor: grey[100],
+        bgcolor: 'customGrey',
         borderRadius: '20px',
         mt: '20px',
         p: '5px 0',
@@ -29,7 +28,11 @@ const Tags: React.FC = (): React.ReactElement => {
         position: 'relative',
       }}
     >
-      <Typography variant="h6" fontWeight={'bold'} sx={{ pt: 2, pl: 2 }}>
+      <Typography
+        variant="h6"
+        fontWeight={'bold'}
+        sx={{ py: 1, pl: 2, borderBottom: '1px solid', borderColor: 'divider' }}
+      >
         Актуальные темы
       </Typography>
       {!tagsIsLoading ? (
@@ -41,7 +44,7 @@ const Tags: React.FC = (): React.ReactElement => {
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <ListItemButton
-                sx={{ borderBottom: '1px solid', borderColor: grey[300] }}
+                sx={{ borderBottom: '1px solid', borderColor: 'divider' }}
               >
                 <ListItemText
                   color="primary"

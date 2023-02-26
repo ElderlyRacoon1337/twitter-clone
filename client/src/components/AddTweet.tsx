@@ -144,6 +144,8 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
             fontSize: 20,
             fontFamily: 'inherit',
             marginTop: '10px',
+            backgroundColor: 'transparent',
+            color: 'inherit',
           }}
         />
         <Stack direction={'row'} justifyContent={'space-between'} mt="30px">

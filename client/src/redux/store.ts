@@ -1,3 +1,4 @@
+import { UserState } from './ducks/user/contracts/state';
 import { TagsState } from './ducks/tags/contracts/state';
 import { TweetsState } from './ducks/tweets/contracts/state';
 import { applyMiddleware, createStore } from 'redux';
@@ -13,6 +14,7 @@ export interface RootState {
   tweets: TweetsState;
   tags: TagsState;
   tweet: TweetState;
+  user: UserState;
 }
 
 export const store = createStore(

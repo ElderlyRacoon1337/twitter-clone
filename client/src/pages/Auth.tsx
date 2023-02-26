@@ -29,14 +29,13 @@ const Signin = () => {
         justifyContent={'center'}
         sx={{
           flex: 1,
-          bgcolor: 'primary.light',
+          bgcolor: 'lightLogo',
           position: 'relative',
           overflow: 'hidden',
         }}
       >
         <TwitterIcon
-          color="primary"
-          sx={{ position: 'absolute', fontSize: '2000px' }}
+          sx={{ position: 'absolute', fontSize: '2000px', color: 'logo' }}
         />
         <List sx={{ color: 'white' }}>
           <ListItem sx={{ mb: '10px' }}>

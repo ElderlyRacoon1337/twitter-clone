@@ -156,7 +156,11 @@ const Navigation: React.FC = (): React.ReactElement => {
         open={open}
         onClose={(e) => setOpen(false)}
         sx={{
-          '& .MuiPaper-root': { borderRadius: '20px', bottom: '100px' },
+          '& .MuiPaper-root': {
+            borderRadius: '20px',
+            bottom: '100px',
+            bgcolor: 'background',
+          },
         }}
       >
         <Stack
@@ -166,7 +170,7 @@ const Navigation: React.FC = (): React.ReactElement => {
             width: '100%',
             height: '55px',
             borderBottom: '2px solid',
-            borderColor: grey[200],
+            borderColor: 'divider',
           }}
         >
           <IconButton onClick={(e) => setOpen(false)} sx={{ ml: '10px' }}>

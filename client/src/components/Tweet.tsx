@@ -54,10 +54,10 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
         direction={'row'}
         sx={{
           padding: '20px',
-          borderBottom: '1px solid #eee',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
           cursor: 'pointer',
-          '&:hover': { bgcolor: 'rgb(245,248,250)' },
-          // '&:hover': { bgcolor: grey[100] },
+          '&:hover': { bgcolor: 'customGrey' },
         }}
       >
         <Box>

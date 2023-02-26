@@ -12,8 +12,10 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { AuthApi } from '../services/AuthApi';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchSigninData } from '../redux/ducks/user/actionCreators';
+import { useNavigate } from 'react-router-dom';
 
 const signInSchema = yup
   .object({
@@ -47,11 +49,14 @@ const AuthModal: React.FC<AuthModalProps> = ({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(signInSchema),
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [errorSnack, setErrorSnack] = useState(false);
 
   const handleClose = () => {
@@ -60,10 +65,12 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
   const handleSignIn = async (data: any) => {
     try {
-      const userData = await AuthApi.signIn(data);
+      dispatch(fetchSigninData(data));
       setOpen(false);
+      reset({ username: '', password: '' });
     } catch (error) {
       setErrorSnack(true);
+      reset({ username: '', password: '' });
     }
   };
 

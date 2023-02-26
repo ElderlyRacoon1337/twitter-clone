@@ -25,23 +25,22 @@ export const SearchRightSide: React.FC<SearchProps> = ({
         sx={{
           width: '300px',
           borderRadius: '20px',
-          // bgcolor: '#E6ECF0',
-          bgcolor: grey[200],
+          bgcolor: 'customDarkGrey',
           p: '5px 15px',
           border: '1px solid',
-          borderColor: 'white',
+          borderColor: 'divider',
           '&.Mui-focused': {
             '& svg': {
               color: 'primary.main',
             },
-            bgcolor: 'white',
+            bgcolor: 'background.default',
             border: '1px solid',
             borderColor: 'primary.main',
           },
         }}
         startAdornment={
           <InputAdornment position="start">
-            <Search />
+            <Search sx={{ color: 'text.secondary' }} />
           </InputAdornment>
         }
       />

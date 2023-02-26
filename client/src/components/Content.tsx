@@ -16,7 +16,7 @@ import {
 } from '../redux/ducks/tweets/selectors';
 import { fetchTweets } from '../redux/ducks/tweets/actionCreators';
 import { fetchTags } from '../redux/ducks/tags/actionCreators';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FullTweet from './FullTweet';
 
@@ -40,8 +40,9 @@ const Content: React.FC = (): React.ReactElement => {
       <Box
         sx={{
           minHeight: '100vh',
-          borderRight: '1px solid #eee',
-          borderLeft: '1px solid #eee',
+          borderRight: '1px solid',
+          borderLeft: '1px solid',
+          borderColor: 'divider',
           position: 'relative',
         }}
       >
@@ -55,11 +56,13 @@ const Content: React.FC = (): React.ReactElement => {
                   direction={'row'}
                   justifyContent={'space-between'}
                   sx={{
-                    p: '10px 20px',
-                    borderBottom: '1px solid #eee',
                     // position: 'fixed',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    backdropFilter: 'blur(5px)',
+                    p: '10px 20px',
+                    borderBottom: '1px solid',
+                    borderColor: 'divider',
+                    background: 'background.default',
+                    // opacity: '0.8',
+                    // backdropFilter: 'blur(10px)',
                     zIndex: 1,
                   }}
                 >
@@ -68,11 +71,13 @@ const Content: React.FC = (): React.ReactElement => {
                   </Typography>
                   <AutoAwesomeOutlinedIcon
                     color="primary"
-                    sx={{ fontSize: '30px', bgcolor: 'white' }}
+                    sx={{ fontSize: '30px', bgcolor: 'transparent' }}
                   />
                 </Stack>
                 <AddTweet />
-                <Box sx={{ borderBottom: '13px solid #eee' }}></Box>
+                <Box
+                  sx={{ borderBottom: '13px solid', borderColor: 'divider' }}
+                ></Box>
                 <Box sx={{ position: 'relative' }}>
                   {!isLoading ? (
                     // @ts-ignore
@@ -105,10 +110,12 @@ const Content: React.FC = (): React.ReactElement => {
                   justifyContent={'space-between'}
                   sx={{
                     p: '10px 20px',
-                    borderBottom: '1px solid #eee',
+                    borderBottom: '1px solid',
+                    borderColor: 'divider',
                     // position: 'fixed',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    backdropFilter: 'blur(5px)',
+                    // opacity: '0.8',
+                    background: 'background',
+                    // backdropFilter: 'blur(5px)',
                     zIndex: 1,
                   }}
                 >
@@ -122,11 +129,13 @@ const Content: React.FC = (): React.ReactElement => {
                   </Stack>
                   <AutoAwesomeOutlinedIcon
                     color="primary"
-                    sx={{ fontSize: '30px', bgcolor: 'white' }}
+                    sx={{ fontSize: '30px', bgcolor: 'transparent' }}
                   />
                 </Stack>
                 <AddTweet />
-                <Box sx={{ borderBottom: '13px solid #eee' }}></Box>
+                <Box
+                  sx={{ borderBottom: '13px solid', borderColor: 'divider' }}
+                ></Box>
                 <Box sx={{ position: 'relative' }}></Box>
               </>
             }
@@ -140,10 +149,12 @@ const Content: React.FC = (): React.ReactElement => {
                   justifyContent={'space-between'}
                   sx={{
                     p: '10px 20px',
-                    borderBottom: '1px solid #eee',
+                    borderBottom: '1px solid',
                     // position: 'fixed',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    backdropFilter: 'blur(5px)',
+                    borderColor: 'divider',
+                    background: 'background.default',
+                    // opacity: '0.8',
+                    // backdropFilter: 'blur(5px)',
                     zIndex: 1,
                   }}
                 >
@@ -157,7 +168,7 @@ const Content: React.FC = (): React.ReactElement => {
                   </Stack>
                   <AutoAwesomeOutlinedIcon
                     color="primary"
-                    sx={{ fontSize: '30px', bgcolor: 'white' }}
+                    sx={{ fontSize: '30px', bgcolor: 'transparent' }}
                   />
                 </Stack>
                 <Box>
