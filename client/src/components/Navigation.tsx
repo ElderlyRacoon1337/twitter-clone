@@ -1,18 +1,21 @@
-import { Twitter } from '@mui/icons-material';
+import { MoreHorizOutlined, Twitter } from '@mui/icons-material';
 import {
-  Box,
+  Avatar,
   Button,
   Dialog,
   Hidden,
+  Icon,
   IconButton,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemButton,
+  ListItemText,
   Stack,
   styled,
   Typography,
 } from '@mui/material';
-import { grey, lightBlue } from '@mui/material/colors';
+import { lightBlue } from '@mui/material/colors';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import TagIcon from '@mui/icons-material/Tag';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
@@ -26,9 +29,12 @@ import AddTweet from './AddTweet';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectUserData } from '../redux/ducks/user/selectors';
 
 const Navigation: React.FC = (): React.ReactElement => {
   const [open, setOpen] = useState<boolean>(false);
+  const userData = useSelector(selectUserData);
 
   const ListItemButtonStyled = styled(ListItemButton)({
     transition: '0.15s all ease-in-out',
@@ -54,10 +60,15 @@ const Navigation: React.FC = (): React.ReactElement => {
   }));
 
   return (
-    <>
+    <Stack flex={3}>
       <NavBarStyled
         sx={{
           width: 'auto',
+          position: 'sticky',
+          top: '0',
+          maxHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <List
@@ -66,13 +77,12 @@ const Navigation: React.FC = (): React.ReactElement => {
             flexDirection: 'column',
             p: 0,
             pr: '30px',
-            position: 'fixed',
           }}
         >
           <ListItem sx={{ pt: 0, pb: 0 }}>
             <Link to="/">
               <IconButton sx={{ ml: '-10px' }}>
-                <Twitter fontSize="large" color="primary" />
+                <Twitter fontSize="large" sx={{ color: 'logo' }} />
               </IconButton>
             </Link>
           </ListItem>
@@ -134,10 +144,12 @@ const Navigation: React.FC = (): React.ReactElement => {
               onClick={(e) => setOpen(true)}
               variant="contained"
               sx={{
-                borderRadius: '20px',
+                borderRadius: '30px',
                 mt: '20px',
-                p: '10px 20px',
-                fontWeight: 'bold',
+                p: '14px 30px',
+                fontWeight: '800',
+                bgcolor: 'rgb(29, 155, 240)',
+                boxShadow: 'rgb(0 0 0 / 8%) 0px 8px 28px',
               }}
             >
               Твитнуть
@@ -151,15 +163,52 @@ const Navigation: React.FC = (): React.ReactElement => {
             </IconButton>
           </Hidden>
         </List>
+        <ListItemButton
+          sx={{
+            borderRadius: '50px',
+            mb: '10px',
+            p: '5px 15px',
+            width: '90%',
+            flex: 0,
+            '&:hover': {
+              bgcolor: 'customGrey',
+            },
+          }}
+        >
+          <ListItemAvatar>
+            <Avatar src={userData?.avatarUrl} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={userData?.fullName}
+            secondary={'@' + userData?.userName}
+            sx={{ overflow: 'hidden', maxWidth: '120px', mr: '15px' }}
+          />
+          <Icon>
+            <MoreHorizOutlined />
+          </Icon>
+        </ListItemButton>
       </NavBarStyled>
       <Dialog
+        transitionDuration={0}
         open={open}
         onClose={(e) => setOpen(false)}
         sx={{
+          backgroundColor: 'rgba(147, 172, 204, 0.5)',
+          transition: '0s all !important',
+          '& .MuiBackdrop-root .MuiModal-backdrop .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop':
+            {
+              transition: '0s all !important',
+            },
+          '& .MuiDialog-container .MuiDialog-scrollPaper .css-hz1bth-MuiDialog-container':
+            {
+              transition: '0s all !important',
+            },
           '& .MuiPaper-root': {
+            transition: 'none',
             borderRadius: '20px',
             bottom: '100px',
             bgcolor: 'background',
+            backgroundImage: 'none',
           },
         }}
       >
@@ -179,7 +228,7 @@ const Navigation: React.FC = (): React.ReactElement => {
         </Stack>
         <AddTweet setOpen={setOpen} />
       </Dialog>
-    </>
+    </Stack>
   );
 };
 

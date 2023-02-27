@@ -1,10 +1,12 @@
 import {
+  FetchMyDataActionInterface,
   FetchSignInActionInterface,
+  FetchSignUpActionInterface,
   SetUserDataActionInterface,
   SetUserLoadingStateActionInterface,
   UserActionsType,
 } from './contracts/actionTypes';
-import { FormSigninType, LoadingState, User } from './contracts/state';
+import { LoadingState, User } from './contracts/state';
 
 export const setLoadingState = (
   payload: LoadingState
@@ -22,11 +24,22 @@ export const setUserData = (payload: User): SetUserDataActionInterface => {
   };
 };
 
-export const fetchSigninData = (
-  payload: FormSigninType
-): FetchSignInActionInterface => {
+export const fetchSigninData = (payload: any): FetchSignInActionInterface => {
   return {
     type: UserActionsType.FETCH_SIGNIN_DATA,
+    payload,
+  };
+};
+
+export const fetchMyData = (): FetchMyDataActionInterface => {
+  return {
+    type: UserActionsType.FETCH_MY_DATA,
+  };
+};
+
+export const fetchSignupData = (payload: any): FetchSignUpActionInterface => {
+  return {
+    type: UserActionsType.FETCH_SIGNUP_DATA,
     payload,
   };
 };
@@ -34,4 +47,6 @@ export const fetchSigninData = (
 export type UserActions =
   | SetUserLoadingStateActionInterface
   | SetUserDataActionInterface
-  | FetchSignInActionInterface;
+  | FetchSignInActionInterface
+  | FetchMyDataActionInterface
+  | FetchSignUpActionInterface;

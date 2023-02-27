@@ -4,13 +4,23 @@ import {
   PaletteMode,
   ThemeProvider,
 } from '@mui/material';
-import { amber, grey, lightBlue } from '@mui/material/colors';
-import { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { grey, lightBlue } from '@mui/material/colors';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Signin from './pages/Auth';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectIsAuth,
+  selectIsLoadedUserData,
+} from './redux/ducks/user/selectors';
+import { fetchMyData } from './redux/ducks/user/actionCreators';
+import LoadingLogo from './pages/LoadingLogo';
 
 function App() {
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
+  const isLoadedUserData = useSelector(selectIsLoadedUserData);
   const [mode, setMode] = useState<PaletteMode>('dark');
   const theme = createTheme({
     palette: {
@@ -18,31 +28,34 @@ function App() {
 
       ...(mode === 'light'
         ? {
-            primary: lightBlue[600],
-            // divider: amber[200],
+            primary: '#1D9BEF',
+            divider: '#EFF3F4',
             text: {
               primary: grey[900],
-              secondary: grey[800],
+              secondary: 'rgb(83, 100, 113)',
             },
-            customGrey: 'rgb(245,248,250)',
-            customDarkGrey: '#E6ECF0',
-            logo: lightBlue[600],
+            customGrey: '#F6F9F9',
+            customDarkGrey: '#EFF3F4',
+            logo: '#1D9BEF',
             lightLogo: lightBlue[400],
+            authBird: '#1D9BEF',
           }
         : {
-            primary: lightBlue[600],
-            // divider: amber[500],
-            // background: {
-            //   default: deepOrange[900],
-            //   paper: deepOrange[900],
-            // },
-            text: {
-              primary: '#fff',
-              secondary: grey[500],
+            primary: '#1D9BEF',
+            divider: '#2F3336',
+            background: {
+              default: '#000',
+              paper: '#000',
             },
-            customGrey: '#212121',
-            logo: '#0f2c59',
-            lightLogo: '#071326',
+            text: {
+              primary: '#D6D9DB',
+              secondary: '#6F7478',
+            },
+            customGrey: '#16181C',
+            customDarkGrey: '#16181C',
+            logo: '#D6D9DB',
+            lightLogo: '#000',
+            authBird: '#101010',
           }),
 
       primary: {
@@ -55,19 +68,45 @@ function App() {
         xs: 0,
         sm: 600,
         md: 1000,
-        lg: 1200,
+        lg: 1330,
         xl: 1536,
       },
     },
   });
+
+  useEffect(() => {
+    dispatch(fetchMyData());
+  }, []);
 
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/auth" element={<Signin />} />
-          <Route path="/*" element={<Home />} />
+          <Route
+            path="/auth"
+            element={
+              isLoadedUserData && !isAuth ? (
+                <Signin />
+              ) : isLoadedUserData && isAuth ? (
+                <Navigate to={'/'} />
+              ) : (
+                <LoadingLogo />
+              )
+            }
+          />
+          <Route
+            path="/*"
+            element={
+              isLoadedUserData && isAuth ? (
+                <Home />
+              ) : isLoadedUserData && !isAuth ? (
+                <Navigate to={'/auth'} />
+              ) : (
+                <LoadingLogo />
+              )
+            }
+          />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

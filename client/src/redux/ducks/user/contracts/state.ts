@@ -3,6 +3,7 @@ export enum LoadingState {
   LOADING = 'LOADING',
   ERROR = 'ERROR',
   NEVER = 'NEVER',
+  AUTH_ERROR = 'AUTH_ERROR',
 }
 
 export interface User {
@@ -16,11 +17,7 @@ export interface User {
   location?: string;
   about?: string;
   website?: string;
-}
-
-export interface FormSigninType {
-  username: string;
-  password: string;
+  avatarUrl: string;
 }
 
 export interface UserState {

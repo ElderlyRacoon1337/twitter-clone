@@ -11,7 +11,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../utils/formatDate';
 import { MoreVertOutlined } from '@mui/icons-material';
@@ -42,7 +41,6 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
 
   const navigate = useNavigate();
   const handleClickTweet = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(tweetData._id);
     navigate(`/tweet/${tweetData._id}`);
   };
   return (
@@ -54,6 +52,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
         direction={'row'}
         sx={{
           padding: '20px',
+          pb: '10px',
           borderBottom: '1px solid',
           borderColor: 'divider',
           cursor: 'pointer',
@@ -73,7 +72,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
               {tweetData.user.fullName}
             </Typography>
             <Typography color={'textSecondary'} mr="5px">
-              {tweetData.user.userName}
+              {'@' + tweetData.user.userName}
             </Typography>
             <Typography color={'textSecondary'} mr="5px">
               ·
@@ -132,35 +131,69 @@ const Tweet: React.FC<TweetProps> = ({ tweetData }): React.ReactElement => {
             >
               <IconButton
                 onClick={(e) => e.stopPropagation()}
-                sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
+                sx={{
+                  mr: '5px',
+                  color: 'text.secondary',
+                  '&:hover': { color: 'primary.main' },
+                }}
               >
-                <ModeCommentOutlinedIcon />
+                <ModeCommentOutlinedIcon fontSize="small" />
               </IconButton>
-              <Typography>{tweetData.comments.length}</Typography>
+              {tweetData.comments.length ? (
+                <Typography color={'textSecondary'}>
+                  {tweetData.comments.length}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton
                 onClick={(e) => e.stopPropagation()}
-                sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
+                sx={{
+                  mr: '5px',
+                  color: 'text.secondary',
+                  '&:hover': { color: '#69ff91' },
+                }}
               >
-                <RepeatOutlinedIcon />
+                <RepeatOutlinedIcon fontSize="small" />
               </IconButton>
-              <Typography>{tweetData.retweets.length}</Typography>
+              {tweetData.retweets.length ? (
+                <Typography color={'textSecondary'}>
+                  {tweetData.retweets.length}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton
                 onClick={(e) => e.stopPropagation()}
-                sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
+                sx={{
+                  mr: '5px',
+                  color: 'text.secondary',
+                  '&:hover': { color: '#ff0090' },
+                }}
               >
-                <FavoriteBorderOutlinedIcon />
+                <FavoriteBorderOutlinedIcon fontSize="small" />
               </IconButton>
-              <Typography>{tweetData.likes.length}</Typography>
+              {tweetData.likes.length ? (
+                <Typography color={'textSecondary'}>
+                  {tweetData.likes.length}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Box>
             <IconButton
               onClick={(e) => e.stopPropagation()}
-              sx={{ mr: '5px', '&:hover': { color: 'primary.main' } }}
+              sx={{
+                mr: '5px',
+                color: 'text.secondary',
+                '&:hover': { color: 'primary.main' },
+              }}
             >
-              <FileUploadOutlinedIcon />
+              <FileUploadOutlinedIcon fontSize="small" />
             </IconButton>
           </Stack>
         </Box>

@@ -1,39 +1,20 @@
 import {
   Alert,
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   Snackbar,
   Stack,
-  TextField,
 } from '@mui/material';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchSigninData } from '../redux/ducks/user/actionCreators';
-import { useNavigate } from 'react-router-dom';
-
-const signInSchema = yup
-  .object({
-    username: yup.string().required('Введите почту или Username'),
-    password: yup
-      .string()
-      .min(8, 'Минимальная длина пароля 8 символов')
-      .required('Введите пароль'),
-  })
-  .required();
-type FormData = yup.InferType<typeof signInSchema>;
-
-const signUpSchema = yup
-  .object({
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required(),
-  })
-  .required();
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  selectIsAuthError,
+  selectIsLoadedState,
+} from '../redux/ducks/user/selectors';
+import { LoginForm } from './LoginForm';
+import { RegisterForm } from './RegisterForm';
 
 interface AuthModalProps {
   open: boolean;
@@ -46,33 +27,28 @@ const AuthModal: React.FC<AuthModalProps> = ({
   setOpen,
   isSignUp,
 }): React.ReactElement => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: yupResolver(signInSchema),
-  });
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [errorSnack, setErrorSnack] = useState(false);
+  const isSuccess = useSelector(selectIsLoadedState);
+  const isError = useSelector(selectIsAuthError);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSignIn = async (data: any) => {
-    try {
-      dispatch(fetchSigninData(data));
+  useEffect(() => {
+    if (isSuccess) {
       setOpen(false);
-      reset({ username: '', password: '' });
-    } catch (error) {
-      setErrorSnack(true);
-      reset({ username: '', password: '' });
     }
-  };
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      setErrorSnack(true);
+      setTimeout(() => {
+        setErrorSnack(false);
+      }, 3000);
+    }
+  }, [isError]);
 
   const handleCloseSnack = (
     event?: React.SyntheticEvent | Event,
@@ -88,36 +64,41 @@ const AuthModal: React.FC<AuthModalProps> = ({
   return (
     <Dialog
       open={open}
+      transitionDuration={0}
       sx={{
+        backgroundColor: 'rgba(147, 172, 204, 0.5)',
         '& .MuiPaper-root': {
           borderRadius: '30px',
+          bgcolor: 'background',
+          backgroundImage: 'none',
         },
       }}
       onClose={handleClose}
     >
       <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={errorSnack}
-        autoHideDuration={3000}
         onClose={handleCloseSnack}
       >
         <Alert
+          severity="warning"
           onClose={handleCloseSnack}
           sx={{
             width: '100%',
-            bgcolor: 'error.main',
+            bgcolor: 'error.dark',
             borderRadius: '10px',
             '& .MuiAlert-icon, .MuiAlert-message, .MuiAlert-action': {
               color: 'white',
             },
           }}
         >
-          Неверный логин или пароль
+          {!isSignUp ? 'Неверный логин или пароль' : 'Ошибка регистрации'}
         </Alert>
       </Snackbar>
       <Stack
         alignItems={'center'}
-        maxWidth={'400px'}
-        sx={{ p: 2, pt: 3, px: 1, borderRadius: 20 }}
+        maxWidth={'500px'}
+        sx={{ p: 2, pt: 3, px: 1, pb: 0.5, borderRadius: 20 }}
       >
         <TwitterIcon color="primary" sx={{ fontSize: '40px' }} />
         {isSignUp ? (
@@ -127,81 +108,14 @@ const AuthModal: React.FC<AuthModalProps> = ({
             </DialogTitle>
 
             <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Имя"
-                type="text"
-                fullWidth
-                variant="filled"
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Адрес электронной почты"
-                type="email"
-                fullWidth
-                variant="filled"
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Пароль"
-                type="password"
-                fullWidth
-                variant="filled"
-              />
-              <Button
-                variant="contained"
-                onClick={handleClose}
-                sx={{ borderRadius: 20, mt: 2, p: '10px 0' }}
-                fullWidth
-              >
-                Далее
-              </Button>
+              <RegisterForm />
             </DialogContent>
           </>
         ) : (
           <>
             <DialogTitle fontWeight={'bold'}>Войти в Твиттер</DialogTitle>
             <DialogContent>
-              <form onSubmit={handleSubmit(handleSignIn)}>
-                <TextField
-                  {...register('username')}
-                  helperText={errors.username?.message?.toString()}
-                  error={errors.username?.toString() ? true : false}
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Адрес электронной почты или Username"
-                  type="text"
-                  fullWidth
-                  variant="filled"
-                />
-                <TextField
-                  {...register('password')}
-                  helperText={errors.password?.message?.toString()}
-                  error={errors.password?.message ? true : false}
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Пароль"
-                  type="password"
-                  fullWidth
-                  variant="filled"
-                />
-                <Button
-                  variant="contained"
-                  type="submit"
-                  sx={{ borderRadius: 20, mt: 2, p: '10px 0' }}
-                  fullWidth
-                >
-                  Войти
-                </Button>
-              </form>
+              <LoginForm />
             </DialogContent>
           </>
         )}

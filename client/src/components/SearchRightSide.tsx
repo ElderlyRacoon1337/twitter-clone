@@ -1,6 +1,5 @@
 import { Box, InputAdornment, InputBase } from '@mui/material';
 import { Search } from '@mui/icons-material';
-import { grey } from '@mui/material/colors';
 
 interface SearchProps {
   text: string;
@@ -23,7 +22,6 @@ export const SearchRightSide: React.FC<SearchProps> = ({
         onChange={(e) => handleChange(e)}
         placeholder="Поиск в Твиттере"
         sx={{
-          width: '300px',
           borderRadius: '20px',
           bgcolor: 'customDarkGrey',
           p: '5px 15px',

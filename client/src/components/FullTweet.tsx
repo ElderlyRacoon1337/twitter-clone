@@ -36,7 +36,7 @@ const FullTweet: React.FC = (): React.ReactElement => {
     return () => {
       dispatch(setTweet(undefined));
     };
-  }, []);
+  }, [dispatch, params.id]);
 
   return (
     <>
@@ -76,7 +76,7 @@ const FullTweet: React.FC = (): React.ReactElement => {
                   {tweetData.user.fullName}
                 </Typography>
                 <Typography color={'textSecondary'} mr="5px">
-                  {tweetData.user.userName}
+                  {'@' + tweetData.user.userName}
                 </Typography>
               </Stack>
             </Stack>

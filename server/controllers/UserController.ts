@@ -44,7 +44,6 @@ class UserController {
   async getUserInfo(req: Request, res: Response): Promise<void> {
     try {
       const user = (req.user as any).toJSON();
-      console.log(user);
       if (user) {
         const { passwordHash, confirmedHash, ...userData } = user;
         res.status(200).json(userData);

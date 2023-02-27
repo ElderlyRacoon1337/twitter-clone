@@ -35,7 +35,7 @@ const Signin = () => {
         }}
       >
         <TwitterIcon
-          sx={{ position: 'absolute', fontSize: '2000px', color: 'logo' }}
+          sx={{ position: 'absolute', fontSize: '2000px', color: 'authBird' }}
         />
         <List sx={{ color: 'white' }}>
           <ListItem sx={{ mb: '10px' }}>

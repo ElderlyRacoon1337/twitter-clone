@@ -11,4 +11,15 @@ export const selectIsLoadedState = (state: RootState): boolean =>
 export const selectIsLoadingState = (state: RootState): boolean =>
   state.user.loadingState === LoadingState.LOADING;
 
-export const isAuth = (state: RootState): boolean => Boolean(state.user.data);
+export const selectIsAuthError = (state: RootState): boolean =>
+  state.user.loadingState === LoadingState.AUTH_ERROR;
+
+export const selectIsAuth = (state: RootState): boolean =>
+  Boolean(state.user.data);
+
+export const selectIsLoadedUserData = (state: RootState): boolean =>
+  Boolean(
+    state.user.loadingState == LoadingState.ERROR ||
+      state.user.loadingState == LoadingState.LOADED ||
+      state.user.loadingState == LoadingState.AUTH_ERROR
+  );

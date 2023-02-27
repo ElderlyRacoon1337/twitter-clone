@@ -24,6 +24,14 @@ export const userReducer = produce(
         draft.loadingState = LoadingState.LOADED;
         break;
 
+      case UserActionsType.FETCH_MY_DATA:
+        draft.loadingState = LoadingState.LOADING;
+        break;
+
+      case UserActionsType.FETCH_SIGNUP_DATA:
+        draft.loadingState = LoadingState.LOADING;
+        break;
+
       default:
         break;
     }

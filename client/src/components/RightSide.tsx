@@ -9,7 +9,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import { ChangeEvent, useState } from 'react';
 import { SearchRightSide } from './SearchRightSide';
@@ -26,10 +25,12 @@ const RightSide: React.FC = (): React.ReactElement => {
   };
 
   return (
-    <Stack sx={{ flex: 4, pt: 1, pl: '30px' }}>
+    <Stack sx={{ flex: 4, pt: 1, pl: '30px', position: 'relative' }}>
       <Box
         sx={{
-          position: 'fixed',
+          position: 'sticky',
+          top: '0',
+          width: '95%',
         }}
       >
         <SearchRightSide text={text} handleChange={handleChange} />

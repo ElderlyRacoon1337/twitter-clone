@@ -24,6 +24,7 @@ import {
   selectIsLoadingAddedTweet,
 } from '../redux/ducks/tweets/selectors';
 import { LoadingState } from '../redux/ducks/tweets/contracts/state';
+import { selectUserData } from '../redux/ducks/user/selectors';
 
 interface AddTweetProps {
   setOpen?: any;
@@ -33,25 +34,32 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
   const dispatch = useDispatch();
   const [text, setText] = useState<string>('');
   const textLimitPercent = (text.length / 280) * 100;
-  const [openSnack, setOpenSnack] = useState<boolean>(false);
+  const [openSnack, setOpenSnack] = useState(false);
   const [errorSnack, setErrorSnack] = useState<boolean>(false);
 
   const isSuccess = useSelector(selectIsAddedTweet);
   const isError = useSelector(selectIsErrorAddedTweet);
   const isLoading = useSelector(selectIsLoadingAddedTweet);
+  const userData = useSelector(selectUserData);
 
   useEffect(() => {
-    return () => {
+    if (isSuccess) {
+      setOpenSnack(true);
       dispatch(setFormLoadingState(LoadingState.NEVER));
-    };
-  }, []);
-
-  useEffect(() => {
-    setOpenSnack(isSuccess);
+      setTimeout(() => {
+        setOpenSnack(false);
+      }, 3000);
+    }
   }, [isSuccess]);
 
   useEffect(() => {
-    setErrorSnack(isError);
+    if (isError) {
+      setErrorSnack(true);
+      dispatch(setFormLoadingState(LoadingState.NEVER));
+      setTimeout(() => {
+        setErrorSnack(false);
+      }, 3000);
+    }
   }, [isError]);
 
   const handleClose = (
@@ -70,7 +78,6 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (e.currentTarget) {
-      console.log(e.currentTarget);
       setText(e.currentTarget.value);
       e.currentTarget.focus();
     }
@@ -91,7 +98,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
         padding: '20px',
       }}
     >
-      <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={openSnack} onClose={handleClose}>
         <Alert
           onClose={handleClose}
           sx={{
@@ -125,7 +132,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
         <Avatar
           alt="Аватарка пользователя"
           sx={{ width: '50px', height: '50px', mr: '15px' }}
-          src="https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+          src={userData?.avatarUrl}
         />
       </Box>
       <Box sx={{ width: '100%' }}>
@@ -153,6 +160,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
             <IconButton
               sx={{
                 mr: '5px',
+                color: 'primary.main',
                 '&:hover': {
                   color: 'primary.main',
                 },
@@ -162,6 +170,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
             </IconButton>
             <IconButton
               sx={{
+                color: 'primary.main',
                 '&:hover': {
                   color: 'primary.main',
                 },

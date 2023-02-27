@@ -36,7 +36,7 @@ const Content: React.FC = (): React.ReactElement => {
   };
 
   return (
-    <Stack sx={{ flex: 7 }}>
+    <Stack sx={{ flex: 6.5 }}>
       <Box
         sx={{
           minHeight: '100vh',
@@ -76,7 +76,7 @@ const Content: React.FC = (): React.ReactElement => {
                 </Stack>
                 <AddTweet />
                 <Box
-                  sx={{ borderBottom: '13px solid', borderColor: 'divider' }}
+                  sx={{ borderBottom: '1px solid', borderColor: 'divider' }}
                 ></Box>
                 <Box sx={{ position: 'relative' }}>
                   {!isLoading ? (

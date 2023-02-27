@@ -5,10 +5,10 @@ import bcrypt from 'bcrypt';
 import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 
 passport.use(
-  new LocalStrategy((username: string, password: string, done: any) => {
+  new LocalStrategy((usernameOrEmail: string, password: string, done: any) => {
     UserModel.findOne(
       {
-        $or: [{ userName: username }, { email: username }],
+        $or: [{ userName: usernameOrEmail }, { email: usernameOrEmail }],
       },
       (err: any, user: any) => {
         if (err) {
