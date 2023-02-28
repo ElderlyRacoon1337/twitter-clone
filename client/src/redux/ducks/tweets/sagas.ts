@@ -7,8 +7,12 @@ import {
 } from './actionCreators';
 import { call, takeLatest, put } from 'redux-saga/effects';
 import { TweetsApi } from '../../../services/TweetsApi';
-import { LoadingState, Tweet } from './contracts/state';
-import { FetchAddTweetActionInterface } from './contracts/actionTypes';
+import { LoadingState } from './contracts/state';
+import {
+  DeleteTweetActionInterface,
+  FetchAddTweetActionInterface,
+} from './contracts/actionTypes';
+import { addTweetToProfile } from '../profile/actionCreators';
 
 function* fetchTweetsRequest() {
   try {
@@ -26,6 +30,17 @@ function* fetchAddTweetRequest(action: FetchAddTweetActionInterface) {
     // @ts-ignore
     const data = yield call(TweetsApi.addTweet, tweet);
     yield put(addTweet(data));
+    yield put(addTweetToProfile(data));
+  } catch (error) {
+    yield put(setFormLoadingState(LoadingState.ERROR));
+  }
+}
+
+function* fetchDeleteTweet(action: DeleteTweetActionInterface) {
+  const id = action.payload;
+  try {
+    // @ts-ignore
+    yield call(TweetsApi.deleteTweet, id);
   } catch (error) {
     yield put(setFormLoadingState(LoadingState.ERROR));
   }
@@ -34,4 +49,5 @@ function* fetchAddTweetRequest(action: FetchAddTweetActionInterface) {
 export function* tweetsSaga() {
   yield takeLatest(TweetsActionsType.FETCH_TWEETS, fetchTweetsRequest);
   yield takeLatest(TweetsActionsType.FETCH_ADD_TWEET, fetchAddTweetRequest);
+  yield takeLatest(TweetsActionsType.DELETE_TWEET, fetchDeleteTweet);
 }

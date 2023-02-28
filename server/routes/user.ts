@@ -28,6 +28,6 @@ router.post(
   }),
   UserCtrl.afterSignIn
 );
-router.get('/:id', UserCtrl.show);
+router.get('/:username', UserCtrl.show);
 
 export default router;

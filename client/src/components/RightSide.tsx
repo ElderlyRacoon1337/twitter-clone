@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   IconButton,
   List,
   ListItemButton,
@@ -63,19 +64,16 @@ const RightSide: React.FC = (): React.ReactElement => {
               <ListItemIcon>
                 <Avatar
                   sx={{ width: '45px', height: '45px' }}
-                  src="https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+                  src="https://i.guim.co.uk/img/media/32d0849f045a9de29f3af3a12bd2d215d1dff389/0_0_1238_743/master/1238.jpg?width=465&quality=85&dpr=1&s=none"
                 />
               </ListItemIcon>
-              <ListItemText
-                primary="Санкт Петербург"
-                secondary="Твитов: 1 488"
-              />
-              <IconButton>
+              <ListItemText primary="Elon Musk" secondary="@elonmusk" />
+              {/* <IconButton>
                 <PersonAddOutlinedIcon color="primary" />
-              </IconButton>
-              {/* <Button variant="contained" sx={{ borderRadius: '20px' }}>
+              </IconButton> */}
+              <Button variant="contained" sx={{ borderRadius: '20px' }}>
                 Читать
-              </Button> */}
+              </Button>
             </ListItemButton>
             <ListItemButton
               disableRipple
@@ -84,19 +82,13 @@ const RightSide: React.FC = (): React.ReactElement => {
               <ListItemIcon>
                 <Avatar
                   sx={{ width: '45px', height: '45px' }}
-                  src="https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+                  src="https://image.cnbcfm.com/api/v1/image/107198138-16770781142023-02-22t143423z_43942611_rc2egz9u8tt7_rtrmadp_0_ukraine-crisis-putin-concert.jpeg?v=1677431880&w=929&h=523&vtcrop=y"
                 />
               </ListItemIcon>
-              <ListItemText
-                primary="Санкт Петербург"
-                secondary="Твитов: 1 488"
-              />
-              <IconButton>
-                <PersonAddOutlinedIcon color="primary" />
-              </IconButton>
-              {/* <Button variant="contained" sx={{ borderRadius: '20px' }}>
+              <ListItemText primary="Владимир Путин" secondary="@putin67" />
+              <Button variant="contained" sx={{ borderRadius: '20px' }}>
                 Читать
-              </Button> */}
+              </Button>
             </ListItemButton>
           </List>
         </Stack>

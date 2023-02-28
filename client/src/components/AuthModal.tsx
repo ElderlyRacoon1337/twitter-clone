@@ -43,6 +43,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
   useEffect(() => {
     if (isError) {
+      setOpen(true);
       setErrorSnack(true);
       setTimeout(() => {
         setErrorSnack(false);

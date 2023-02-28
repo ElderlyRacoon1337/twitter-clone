@@ -12,8 +12,13 @@ export const TweetsApi = {
     return data;
   },
 
-  async addTweet(text: string): Promise<Tweet> {
-    const { data } = await axios.post(`/tweets`, { text: text });
+  // @ts-ignore
+  async addTweet({ text, imageUrls }): Promise<Tweet> {
+    const { data } = await axios.post(`/tweets`, { text: text, imageUrls });
     return data;
+  },
+
+  async deleteTweet(id: string) {
+    await axios.delete(`/tweets/${id}`);
   },
 };

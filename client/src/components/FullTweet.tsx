@@ -21,12 +21,22 @@ import {
 } from '@mui/material';
 import { format } from 'date-fns';
 import ru from 'date-fns/locale/ru';
+import mediumZoom from 'medium-zoom';
 
 const FullTweet: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const params = useParams();
   const tweetData = useSelector(selectTweetItem);
   const isLoading = useSelector(selectIsLoadingState);
+
+  useEffect(() => {
+    // @ts-ignore
+    window.mediumZoom = mediumZoom;
+    mediumZoom('.image', {
+      background: 'rgba(147, 172, 204, 0.5)',
+      margin: 100,
+    });
+  }, [isLoading]);
 
   useEffect(() => {
     if (params.id) {
@@ -83,6 +93,47 @@ const FullTweet: React.FC = (): React.ReactElement => {
             <Typography mb={'20px'} fontSize={'18px'}>
               {tweetData.text}
             </Typography>
+            {tweetData.images.length ? (
+              <img
+                className="image"
+                src={tweetData.images[0]}
+                style={{
+                  maxWidth: '100%',
+                  borderRadius: '5px',
+                  marginBottom: '10px',
+                }}
+              />
+            ) : (
+              ''
+            )}
+            {tweetData.images.length ? (
+              <Stack
+                direction={'row'}
+                alignItems={'flex-end'}
+                flexWrap={'wrap'}
+                justifyContent={'space-between'}
+              >
+                {tweetData.images.slice(1).map((image) => (
+                  <img
+                    src={image}
+                    className="image"
+                    style={{
+                      marginRight: '10px',
+                      flex: '0 0 30%',
+                      height: '110px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundImage: 'url(' + image + ')',
+                    }}
+                  ></img>
+                ))}
+              </Stack>
+            ) : (
+              ''
+            )}
             <Stack direction={'row'}>
               <Typography mb={'10px'} mr="5px" color={'textSecondary'}>
                 {format(new Date(tweetData.createdAt), 'H:mm:ss', {

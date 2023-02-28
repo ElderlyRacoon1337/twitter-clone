@@ -16,9 +16,10 @@ import {
 } from '../redux/ducks/tweets/selectors';
 import { fetchTweets } from '../redux/ducks/tweets/actionCreators';
 import { fetchTags } from '../redux/ducks/tags/actionCreators';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FullTweet from './FullTweet';
+import Profile from './Profile';
 
 const Content: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
@@ -48,21 +49,22 @@ const Content: React.FC = (): React.ReactElement => {
       >
         <Routes>
           {/* <Route path="/" element={<>Hello world</>} /> */}
+          <Route path="/" element={<Navigate to={'/home'} />} />
           <Route
-            path="/"
+            path="/home"
             element={
               <>
                 <Stack
                   direction={'row'}
                   justifyContent={'space-between'}
                   sx={{
-                    // position: 'fixed',
+                    position: 'sticky',
+                    top: '0',
                     p: '10px 20px',
                     borderBottom: '1px solid',
                     borderColor: 'divider',
-                    background: 'background.default',
-                    // opacity: '0.8',
-                    // backdropFilter: 'blur(10px)',
+                    bgcolor: 'rgba(0, 0, 0, 0.85)',
+                    backdropFilter: 'blur(10px)',
                     zIndex: 1,
                   }}
                 >
@@ -112,10 +114,9 @@ const Content: React.FC = (): React.ReactElement => {
                     p: '10px 20px',
                     borderBottom: '1px solid',
                     borderColor: 'divider',
-                    // position: 'fixed',
-                    // opacity: '0.8',
-                    background: 'background',
-                    // backdropFilter: 'blur(5px)',
+                    position: 'sticky',
+                    bgcolor: 'rgba(0, 0, 0, 0.85)',
+                    backdropFilter: 'blur(10px)',
                     zIndex: 1,
                   }}
                 >
@@ -150,11 +151,11 @@ const Content: React.FC = (): React.ReactElement => {
                   sx={{
                     p: '10px 20px',
                     borderBottom: '1px solid',
-                    // position: 'fixed',
+                    position: 'sticky',
                     borderColor: 'divider',
                     background: 'background.default',
-                    // opacity: '0.8',
-                    // backdropFilter: 'blur(5px)',
+                    bgcolor: 'rgba(0, 0, 0, 0.85)',
+                    backdropFilter: 'blur(10px)',
                     zIndex: 1,
                   }}
                 >
@@ -176,6 +177,10 @@ const Content: React.FC = (): React.ReactElement => {
                 </Box>
               </>
             }
+          />
+          <Route
+            path="/:username"
+            element={<Profile handleClickBack={handleClickBack} />}
           />
         </Routes>
       </Box>

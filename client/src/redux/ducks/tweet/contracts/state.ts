@@ -17,6 +17,7 @@ export interface Tweet {
   retweets: string[];
   likes: string[];
   createdAt: string;
+  images: string[];
 }
 
 export interface TweetState {

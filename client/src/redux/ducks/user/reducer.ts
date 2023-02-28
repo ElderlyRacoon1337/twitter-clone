@@ -32,6 +32,12 @@ export const userReducer = produce(
         draft.loadingState = LoadingState.LOADING;
         break;
 
+      case UserActionsType.LOGOUT:
+        draft.data = undefined;
+        draft.loadingState = LoadingState.ERROR;
+        localStorage.removeItem('token');
+        break;
+
       default:
         break;
     }

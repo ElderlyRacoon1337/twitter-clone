@@ -42,6 +42,7 @@ class TweetsController {
       if (user) {
         const data: TweetInterface = {
           text: req.body.text,
+          images: req.body.imageUrls,
           // @ts-ignore
           user: user._id || '',
         };

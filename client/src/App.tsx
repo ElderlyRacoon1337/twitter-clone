@@ -39,6 +39,7 @@ function App() {
             logo: '#1D9BEF',
             lightLogo: lightBlue[400],
             authBird: '#1D9BEF',
+            colorMy: '#000',
           }
         : {
             primary: '#1D9BEF',
@@ -48,7 +49,8 @@ function App() {
               paper: '#000',
             },
             text: {
-              primary: '#D6D9DB',
+              // primaryOtl: '#D6D9DB',
+              primary: '#fff',
               secondary: '#6F7478',
             },
             customGrey: '#16181C',
@@ -56,6 +58,7 @@ function App() {
             logo: '#D6D9DB',
             lightLogo: '#000',
             authBird: '#101010',
+            colorMy: '#fff',
           }),
 
       primary: {
@@ -89,7 +92,7 @@ function App() {
               isLoadedUserData && !isAuth ? (
                 <Signin />
               ) : isLoadedUserData && isAuth ? (
-                <Navigate to={'/'} />
+                <Navigate to={'/home'} />
               ) : (
                 <LoadingLogo />
               )

@@ -2,6 +2,7 @@ import {
   FetchMyDataActionInterface,
   FetchSignInActionInterface,
   FetchSignUpActionInterface,
+  LogOutActionInterface,
   SetUserDataActionInterface,
   SetUserLoadingStateActionInterface,
   UserActionsType,
@@ -44,9 +45,16 @@ export const fetchSignupData = (payload: any): FetchSignUpActionInterface => {
   };
 };
 
+export const logOut = (): LogOutActionInterface => {
+  return {
+    type: UserActionsType.LOGOUT,
+  };
+};
+
 export type UserActions =
   | SetUserLoadingStateActionInterface
   | SetUserDataActionInterface
   | FetchSignInActionInterface
   | FetchMyDataActionInterface
-  | FetchSignUpActionInterface;
+  | FetchSignUpActionInterface
+  | LogOutActionInterface;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios';
 
 export const AuthApi = {
   async signIn(formData: any): Promise<any> {
@@ -16,6 +16,12 @@ export const AuthApi = {
 
   async getMe(): Promise<any> {
     const { data } = await axios.get('/users/me');
+    return data;
+  },
+
+  async getProfileData(username: string): Promise<any> {
+    const { data } = await axios.get(`/users/${username}`);
+    console.log(data);
     return data;
   },
 };

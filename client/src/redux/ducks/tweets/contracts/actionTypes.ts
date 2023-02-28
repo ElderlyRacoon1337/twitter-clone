@@ -16,7 +16,7 @@ export interface SetTweetsLoadingStateActionInterface
 export interface FetchAddTweetActionInterface
   extends Action<TweetsActionsType> {
   type: TweetsActionsType.FETCH_ADD_TWEET;
-  payload: string;
+  payload: object;
 }
 
 export interface AddTweetActionInterface extends Action<TweetsActionsType> {
@@ -32,4 +32,9 @@ export interface SetFormLoadingActionInterface
   extends Action<TweetsActionsType> {
   type: TweetsActionsType.SET_FORM_LOADING_STATE;
   payload: LoadingState;
+}
+
+export interface DeleteTweetActionInterface extends Action<TweetsActionsType> {
+  type: TweetsActionsType.DELETE_TWEET;
+  payload: String;
 }

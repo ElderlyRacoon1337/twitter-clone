@@ -10,7 +10,6 @@ import {
   TextareaAutosize,
   Typography,
 } from '@mui/material';
-import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,12 +24,24 @@ import {
 } from '../redux/ducks/tweets/selectors';
 import { LoadingState } from '../redux/ducks/tweets/contracts/state';
 import { selectUserData } from '../redux/ducks/user/selectors';
+import UploadImages from './UploadImages';
+import { DeleteOutline } from '@mui/icons-material';
+import { uploadImage } from '../utils/uploadImage';
 
 interface AddTweetProps {
   setOpen?: any;
+  open?: boolean;
 }
 
-const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
+export interface ImageObj {
+  blobUrl: string;
+  file: File;
+}
+
+const AddTweet: React.FC<AddTweetProps> = ({
+  setOpen,
+  open,
+}): React.ReactElement => {
   const dispatch = useDispatch();
   const [text, setText] = useState<string>('');
   const textLimitPercent = (text.length / 280) * 100;
@@ -41,6 +52,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
   const isError = useSelector(selectIsErrorAddedTweet);
   const isLoading = useSelector(selectIsLoadingAddedTweet);
   const userData = useSelector(selectUserData);
+  const [images, setImages] = useState<ImageObj[]>([]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -74,6 +86,10 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
     setErrorSnack(false);
   };
 
+  const removeImage = (obj: ImageObj) => {
+    setImages((prev) => prev.filter((_obj) => _obj.blobUrl !== obj.blobUrl));
+  };
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -83,8 +99,19 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
     }
   };
 
-  const handleClickAddTweet = (): void => {
-    dispatch(fetchAddTweet(text));
+  const handleClickAddTweet = async () => {
+    dispatch(setFormLoadingState(LoadingState.LOADING));
+    const urls: string[] = [];
+    for (let i = 0; i < images.length; i++) {
+      const url = await uploadImage(images[i].file);
+      urls.push(url);
+    }
+    if (urls.length > 0) {
+      dispatch(fetchAddTweet({ text, imageUrls: urls }));
+      setImages([]);
+    } else {
+      dispatch(fetchAddTweet({ text, imageUrls: [] }));
+    }
     setText('');
     if (setOpen) {
       setOpen(false);
@@ -137,8 +164,8 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
       </Box>
       <Box sx={{ width: '100%' }}>
         <TextareaAutosize
+          autoFocus={open ? true : false}
           maxRows={15}
-          autoFocus
           onChange={handleChange}
           value={text}
           placeholder="Что происходит?"
@@ -156,29 +183,53 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
           }}
         />
         <Stack direction={'row'} justifyContent={'space-between'} mt="30px">
-          <Box>
-            <IconButton
-              sx={{
-                mr: '5px',
-                color: 'primary.main',
-                '&:hover': {
+          <Stack>
+            <Stack direction={'row'} flexWrap={'wrap'}>
+              {images.map((obj) => (
+                <Box
+                  key={obj.blobUrl}
+                  sx={{
+                    position: 'relative',
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '10px',
+                    marginRight: '15px',
+                    marginBottom: '10px',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundImage: 'url(' + obj.blobUrl + ')',
+                  }}
+                >
+                  <DeleteOutline
+                    onClick={(e) => removeImage(obj)}
+                    sx={{
+                      position: 'absolute',
+                      color: 'white',
+                      top: '-5px',
+                      right: '-10px',
+                      backgroundColor: '#fc5549',
+                      p: '5px',
+                      borderRadius: '50%',
+                    }}
+                  />
+                </Box>
+              ))}
+            </Stack>
+            <Stack direction={'row'} mb="10px">
+              <UploadImages setImages={setImages} />
+              <IconButton
+                sx={{
                   color: 'primary.main',
-                },
-              }}
-            >
-              <InsertPhotoOutlinedIcon />
-            </IconButton>
-            <IconButton
-              sx={{
-                color: 'primary.main',
-                '&:hover': {
-                  color: 'primary.main',
-                },
-              }}
-            >
-              <SentimentSatisfiedOutlinedIcon />
-            </IconButton>
-          </Box>
+                  '&:hover': {
+                    color: 'primary.main',
+                  },
+                }}
+              >
+                <SentimentSatisfiedOutlinedIcon />
+              </IconButton>
+            </Stack>
+          </Stack>
           <Stack direction={'row'} alignItems={'center'}>
             {text && (
               <>
@@ -187,11 +238,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
                     {280 - text.length}
                   </Typography>
                 ) : textLimitPercent > 100 && text.length <= 350 ? (
-                  <Typography
-                    mr={'10px'}
-                    color={'warning.light'}
-                    // sx={{ fontSize: '12px' }}
-                  >
+                  <Typography mr={'10px'} color={'warning.light'}>
                     {280 - text.length}
                   </Typography>
                 ) : (
@@ -210,7 +257,7 @@ const AddTweet: React.FC<AddTweetProps> = ({ setOpen }): React.ReactElement => {
             )}
             <Button
               onClick={handleClickAddTweet}
-              disabled={!text || text.length > 350}
+              disabled={(!text || text.length > 350) && !images.length}
               variant="contained"
               sx={{ borderRadius: '20px', width: '110px', height: '40px' }}
             >

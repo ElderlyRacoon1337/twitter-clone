@@ -29,12 +29,14 @@ import AddTweet from './AddTweet';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUserData } from '../redux/ducks/user/selectors';
+import { logOut } from '../redux/ducks/user/actionCreators';
 
 const Navigation: React.FC = (): React.ReactElement => {
   const [open, setOpen] = useState<boolean>(false);
   const userData = useSelector(selectUserData);
+  const dispatch = useDispatch();
 
   const ListItemButtonStyled = styled(ListItemButton)({
     transition: '0.15s all ease-in-out',
@@ -127,12 +129,17 @@ const Navigation: React.FC = (): React.ReactElement => {
               Списки
             </NavigationText>
           </ListItemButtonStyled>
-          <ListItemButtonStyled>
-            <PersonOutlinedIcon sx={{ mr: '15px', fontSize: '30px' }} />
-            <NavigationText variant="h6" fontWeight={500}>
-              Профиль
-            </NavigationText>
-          </ListItemButtonStyled>
+          <Link
+            to={`/${userData?.userName}`}
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            <ListItemButtonStyled>
+              <PersonOutlinedIcon sx={{ mr: '15px', fontSize: '30px' }} />
+              <NavigationText variant="h6" fontWeight={500}>
+                Профиль
+              </NavigationText>
+            </ListItemButtonStyled>
+          </Link>
           <ListItemButtonStyled>
             <MoreHorizIcon sx={{ mr: '15px', fontSize: '30px' }} />
             <NavigationText variant="h6" fontWeight={500}>
@@ -164,6 +171,12 @@ const Navigation: React.FC = (): React.ReactElement => {
           </Hidden>
         </List>
         <ListItemButton
+          // onClick={(event) => setAnchorEl(event.currentTarget)}
+          onClick={() => {
+            if (window.confirm('Выйти из аккаунта')) {
+              dispatch(logOut());
+            }
+          }}
           sx={{
             borderRadius: '50px',
             mb: '10px',
@@ -226,7 +239,7 @@ const Navigation: React.FC = (): React.ReactElement => {
             <CloseIcon color="primary" />
           </IconButton>
         </Stack>
-        <AddTweet setOpen={setOpen} />
+        <AddTweet setOpen={setOpen} open={open} />
       </Dialog>
     </Stack>
   );

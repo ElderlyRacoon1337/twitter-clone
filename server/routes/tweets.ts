@@ -23,8 +23,8 @@ router.patch(
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
-  createTweetValidations,
-  handleValidationErrors,
+  // createTweetValidations,
+  // handleValidationErrors,
   TweetsCtrl.create
 );
 

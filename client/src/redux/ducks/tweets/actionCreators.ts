@@ -1,5 +1,6 @@
 import {
   AddTweetActionInterface,
+  DeleteTweetActionInterface,
   FetchAddTweetActionInterface,
   FetchTweetsActionInterface,
   SetFormLoadingActionInterface,
@@ -15,6 +16,7 @@ export enum TweetsActionsType {
   FETCH_ADD_TWEET = 'tweets/FETCH_ADD_TWEET',
   ADD_TWEET = 'tweets/ADD_TWEET',
   SET_FORM_LOADING_STATE = 'tweets/SET_FORM_LOADING_STATE',
+  DELETE_TWEET = 'tweets/DELETE_TWEET',
 }
 
 export const setTweets = (payload: Tweet[]): SetTweetsActionInterface => {
@@ -25,7 +27,7 @@ export const setTweets = (payload: Tweet[]): SetTweetsActionInterface => {
 };
 
 export const fetchAddTweet = (
-  payload: string
+  payload: object
 ): FetchAddTweetActionInterface => {
   return {
     type: TweetsActionsType.FETCH_ADD_TWEET,
@@ -64,10 +66,18 @@ export const setFormLoadingState = (
   };
 };
 
+export const deleteTweet = (payload: string): DeleteTweetActionInterface => {
+  return {
+    type: TweetsActionsType.DELETE_TWEET,
+    payload,
+  };
+};
+
 export type TweetsActions =
   | SetTweetsActionInterface
   | SetTweetsLoadingStateActionInterface
   | FetchTweetsActionInterface
   | AddTweetActionInterface
   | FetchAddTweetActionInterface
-  | SetFormLoadingActionInterface;
+  | SetFormLoadingActionInterface
+  | DeleteTweetActionInterface;

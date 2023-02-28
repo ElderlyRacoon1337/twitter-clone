@@ -16,7 +16,7 @@ import DialogComponent from '../components/AuthModal';
 
 const Signin = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [isSignUp, setIsSignUp] = useState<boolean>(true);
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);

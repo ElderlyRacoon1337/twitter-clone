@@ -7,6 +7,7 @@ export interface TweetInterface {
   likes: string[];
   comments: string[];
   retweets: string[];
+  images: string[];
 }
 
 export type TweetDocumentInterface = TweetInterface & Document;
@@ -14,13 +15,15 @@ export type TweetDocumentInterface = TweetInterface & Document;
 const TweetSchema = new Schema<TweetInterface>(
   {
     text: {
-      required: true,
       type: String,
     },
     user: {
       required: true,
       type: Schema.Types.ObjectId,
       ref: 'User',
+    },
+    images: {
+      type: [String],
     },
     likes: {
       type: [String],

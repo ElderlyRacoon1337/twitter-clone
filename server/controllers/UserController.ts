@@ -3,8 +3,8 @@ import { UserDocumentInterface, UserModel } from '../models/UserModel';
 import bcrypt from 'bcrypt';
 import { generateMD5 } from '../utils/generateHash';
 import { sendEmail } from '../utils/sendEmail';
-import { isValidObjectId } from 'mongoose';
 import jwt from 'jsonwebtoken';
+import { TweetModel } from '../models/TweetModel';
 
 class UserController {
   async index(_: any, res: Response): Promise<void> {
@@ -19,19 +19,22 @@ class UserController {
 
   async show(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.params.id;
+      const username = req.params.username;
 
-      if (!isValidObjectId(userId)) {
+      if (!username) {
         res.status(400).json({ message: 'Not found' });
         return;
       }
 
-      const user = await UserModel.findById(userId);
+      const user = await UserModel.findOne({ userName: username });
 
       if (user) {
         // @ts-ignore
         const { passwordHash, confirmedHash, ...userData } = user._doc;
-        res.status(200).json(userData);
+        const tweets = await TweetModel.find({ user: userData._id })
+          .populate('user')
+          .sort('-createdAt');
+        res.status(200).json({ ...userData, tweets: [...tweets] });
       } else {
         res.status(404).json({ message: 'Not found' });
       }
@@ -45,8 +48,11 @@ class UserController {
     try {
       const user = (req.user as any).toJSON();
       if (user) {
+        const tweets = await TweetModel.find({ user: user._id })
+          .populate('user')
+          .sort('-createdAt');
         const { passwordHash, confirmedHash, ...userData } = user;
-        res.status(200).json(userData);
+        res.status(200).json({ ...userData, tweets: [...tweets] });
       }
     } catch (error) {
       res.status(500).json(error);
