@@ -95,14 +95,13 @@ const Profile: React.FC<any> = ({ handleClickBack }) => {
               p: '0px 10px',
               borderBottom: '1px solid',
               borderColor: 'divider',
-              background: 'background.default',
-              bgcolor: 'rgba(0, 0, 0, 0.85)',
+              bgcolor: 'prozr',
               backdropFilter: 'blur(10px)',
               zIndex: 1,
             }}
           >
             <IconButton sx={{ mr: '20px' }} onClick={handleClickBack}>
-              <ArrowBack fontSize="small" sx={{ color: 'white' }} />
+              <ArrowBack fontSize="small" sx={{ color: 'logo' }} />
             </IconButton>
             <Stack>
               <Typography fontWeight={'800'} sx={{ fontSize: '22px' }}>
@@ -146,7 +145,8 @@ const Profile: React.FC<any> = ({ handleClickBack }) => {
                   top: '-90px',
                   left: '0px',
                   borderRadius: '50%',
-                  border: '3px solid black',
+                  border: '3px solid',
+                  borderColor: 'background.default',
                 }}
               ></Avatar>
               <Box />

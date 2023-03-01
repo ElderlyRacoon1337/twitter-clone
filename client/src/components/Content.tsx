@@ -60,10 +60,10 @@ const Content: React.FC = (): React.ReactElement => {
                   sx={{
                     position: 'sticky',
                     top: '0',
-                    p: '10px 20px',
+                    p: '7px 20px',
                     borderBottom: '1px solid',
                     borderColor: 'divider',
-                    bgcolor: 'rgba(0, 0, 0, 0.85)',
+                    bgcolor: 'prozr',
                     backdropFilter: 'blur(10px)',
                     zIndex: 1,
                   }}
@@ -71,10 +71,6 @@ const Content: React.FC = (): React.ReactElement => {
                   <Typography variant="h6" fontWeight={'bold'}>
                     Главная
                   </Typography>
-                  <AutoAwesomeOutlinedIcon
-                    color="primary"
-                    sx={{ fontSize: '30px', bgcolor: 'transparent' }}
-                  />
                 </Stack>
                 <AddTweet />
                 <Box
@@ -111,27 +107,24 @@ const Content: React.FC = (): React.ReactElement => {
                   direction={'row'}
                   justifyContent={'space-between'}
                   sx={{
-                    p: '10px 20px',
+                    position: 'sticky',
+                    top: '0',
+                    p: '5px 10px',
                     borderBottom: '1px solid',
                     borderColor: 'divider',
-                    position: 'sticky',
-                    bgcolor: 'rgba(0, 0, 0, 0.85)',
+                    bgcolor: 'prozr',
                     backdropFilter: 'blur(10px)',
                     zIndex: 1,
                   }}
                 >
                   <Stack direction={'row'} alignItems={'center'}>
                     <IconButton sx={{ mr: '10px' }} onClick={handleClickBack}>
-                      <ArrowBackIcon color="primary" />
+                      <ArrowBackIcon fontSize="small" sx={{ color: 'logo' }} />
                     </IconButton>
                     <Typography variant="h6" fontWeight={'bold'}>
                       Теги
                     </Typography>
                   </Stack>
-                  <AutoAwesomeOutlinedIcon
-                    color="primary"
-                    sx={{ fontSize: '30px', bgcolor: 'transparent' }}
-                  />
                 </Stack>
                 <AddTweet />
                 <Box
@@ -149,28 +142,24 @@ const Content: React.FC = (): React.ReactElement => {
                   direction={'row'}
                   justifyContent={'space-between'}
                   sx={{
-                    p: '10px 20px',
-                    borderBottom: '1px solid',
                     position: 'sticky',
+                    top: '0',
+                    p: '5px 10px',
+                    borderBottom: '1px solid',
                     borderColor: 'divider',
-                    background: 'background.default',
-                    bgcolor: 'rgba(0, 0, 0, 0.85)',
+                    bgcolor: 'prozr',
                     backdropFilter: 'blur(10px)',
                     zIndex: 1,
                   }}
                 >
                   <Stack direction={'row'} alignItems={'center'}>
                     <IconButton sx={{ mr: '10px' }} onClick={handleClickBack}>
-                      <ArrowBackIcon color="primary" />
+                      <ArrowBackIcon fontSize="small" sx={{ color: 'logo' }} />
                     </IconButton>
                     <Typography variant="h6" fontWeight={'bold'}>
                       Твит
                     </Typography>
                   </Stack>
-                  <AutoAwesomeOutlinedIcon
-                    color="primary"
-                    sx={{ fontSize: '30px', bgcolor: 'transparent' }}
-                  />
                 </Stack>
                 <Box>
                   <FullTweet />

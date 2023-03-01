@@ -21,7 +21,7 @@ function App() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const isLoadedUserData = useSelector(selectIsLoadedUserData);
-  const [mode, setMode] = useState<PaletteMode>('dark');
+  const [mode, setMode] = useState<PaletteMode>('light');
   const theme = createTheme({
     palette: {
       mode: mode,
@@ -40,6 +40,7 @@ function App() {
             lightLogo: lightBlue[400],
             authBird: '#1D9BEF',
             colorMy: '#000',
+            prozr: 'rgba(255,255,255,0.9)',
           }
         : {
             primary: '#1D9BEF',
@@ -49,7 +50,6 @@ function App() {
               paper: '#000',
             },
             text: {
-              // primaryOtl: '#D6D9DB',
               primary: '#fff',
               secondary: '#6F7478',
             },
@@ -59,6 +59,7 @@ function App() {
             lightLogo: '#000',
             authBird: '#101010',
             colorMy: '#fff',
+            prozr: 'rgba(0,0,0,0.8)',
           }),
 
       primary: {
